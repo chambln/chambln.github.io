@@ -4,9 +4,6 @@ author: "Greg Chamberlain"
 date: "Wednesday 26 June, 2019"
 ---
 
-Linux setup guide: rc shell from Plan 9 
-=======================================
-
 This article demonstrates how to download, compile and install Byron
 Rakitzis' reimplementation of the Plan 9 shell, called *rc*.
 The first section is a brief history of *rc* and some of its newer
