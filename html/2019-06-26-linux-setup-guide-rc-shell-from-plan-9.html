@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Greg Chamberlain" />
+  <title>Linux setup guide: rc shell from Plan 9</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="../css/main.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Linux setup guide: rc shell from Plan 9</h1>
+<p class="author">Greg Chamberlain</p>
+<p class="date">Wednesday 26 June, 2019</p>
+</header>
+<h1 id="linux-setup-guide-rc-shell-from-plan-9">Linux setup guide: rc shell from Plan 9</h1>
+<p>This article demonstrates how to download, compile and install Byron Rakitzis’ reimplementation of the Plan 9 shell, called <em>rc</em>. The first section is a brief history of <em>rc</em> and some of its newer forms, but feel free to skip ahead to the actual guide.</p>
+<h2 id="history">History</h2>
+<p>Around 10 years or so after creating Unix, the Computing Science Research Center at AT&amp;T Bell Labs developed the <a href="https://9p.io/plan9">Plan 9</a> operating system, which further riffed on the Unix philosophy. It was only used internally at Bell Labs until the early '90s when they made it available to universities and businesses. Eventually they released it under an open-source license. Today it’s only really used by hobbyists and people learning about operating systems.</p>
+<p>Anyway, <em>rc</em> (short for <em>“run commands”</em>) was the system’s canonical command-line interpreter, and it’s ace. Its syntax is much simpler than that of the established Bourne shell from which Bash and most other contemporary shells derive; and rc’s handling of strings and special characters makes it less error-prone overall.</p>
+<p>Many tools from Plan 9, including its fantastic rc shell, have been ported to Unix-like systems under the name <em><a href="https://9fans.github.io/plan9port">Plan 9 from User Space</a></em> (a.k.a. plan9port). A subset of these programs packaged as <a href="http://tools.suckless.org/9base/">9base</a> is provided by Suckless. The two are probably available from your distribution’s package repository (but keep reading).</p>
+<p>An independent project by Byron Rakitzis saw a reimplementation of the <em>rc</em> shell for Unix-like systems. His implementation differs very slightly from the <em>true</em> Plan 9 shell (as ported by plan9port), but before compiling it can be linked with line-editing libraries such as GNU readline, which is why I much prefer it for interactive use.</p>
+<h2 id="install-the-rc-shell">Install the rc shell</h2>
+<p>I recommend installing <a href="https://github.com/rakitzis/rc" title="rc shell -- independent re-implementation for Unix of the Plan 9 shell (from circa 1992).">Byron Rakitzis’ reimplementation of rc</a>, which provides such nice features as <strong>line editing</strong> and <strong>tab completions</strong>.</p>
+<h3 id="compile-from-source">Compile from source</h3>
+<p>Clone the GitHub repository and run the bootstrap script:</p>
+<pre><code>git clone https://github.com/rakitzis/rc
+cd rc
+./bootstrap</code></pre>
+<p>This generates an <code>INSTALL</code> file with detailed instructions. Then configure and build like so:</p>
+<pre><code>sh configure --with-edit=readline
+make
+sudo make install</code></pre>
+<p>You now have rc installed on your machine. To uninstall, use <code>sudo make uninstall</code> in that same directory.</p>
+<h2 id="start-the-rc-shell">Start the rc shell</h2>
+<p>You may need to log out and back in for it to work. Start the shell by typing</p>
+<pre><code>rc</code></pre>
+<p>or, in order to have rc behave as a <strong>login shell</strong>, pass the <code>-l</code> flag:</p>
+<pre><code>rc -l</code></pre>
+<p>As described in the manual (<code>man rc</code>), this tells rc to source <code>$home/.rcrc</code> when it starts.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Much like one’s <a href="https://wiki.archlinux.org/index.php/Bash#Configuration_files"><code>.bashrc</code></a>, you might like to populate that file with commands that</p>
+<ul>
+<li>change your <code>$prompt</code></li>
+<li>change your <code>$path</code><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></li>
+<li>define functions,</li>
+<li>assign environment variables,</li>
+<li>do whatever else.</li>
+</ul>
+<p>The default prompt is a semicolon, which seems an odd choice. According to the manual,</p>
+<blockquote>
+<p>[t]he reason for this is that it enables an rc user to grab commands from previous lines using a mouse, and to present them to rc for re-interpretation; the semicolon prompt is simply ignored by rc.</p>
+</blockquote>
+<p>To quit the shell, press CTRL-D or type</p>
+<pre><code>exit</code></pre>
+<h2 id="make-rc-your-login-shell">Make rc your login shell</h2>
+<p>When you open your terminal, the first program it runs is your <strong>login shell</strong>. On most Linux machines, users’ login shells are set to Bash by default. Changing your login shell is easy to do.</p>
+<p>Firstly, add rc’s full path to your machine’s list of approved login shells. This must be done as root, as so:</p>
+<pre><code>sudo su -c &#39;which rc &gt;&gt; /etc/shells&#39;</code></pre>
+<p>Let’s do this next step in an rc shell, demonstrating its backquote substitution (analogous to the Bourne shell’s command substitution). And we’ll use the built-in <a href="http://man7.org/linux/man-pages/man1/chsh.1.html"><code>chsh</code></a> utility:</p>
+<pre><code>rc
+chsh $USER --shell `{ which rc }</code></pre>
+<p>That’s it! Next time you log in as the same user, your tty and terminals will start with the rc shell.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> This has had no effect on other users; so if your rc executable breaks or disappears, you can simply log in as root and change your shell back to Bash or what have you.</p>
+<h2 id="make-use-of-run-commands">Make use of run commands</h2>
+<p>Many users like to use <code>la</code> as an alias to <code>ls -A</code>. To implement this in our rc, let’s define a function in <strong><code>$home/.rcrc</code></strong>.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<pre><code>fn la { ls -A $* }   </code></pre>
+<p>In short, <code>fn</code> is the keyword for creating functions, and the braces contain the sequence of commands the function shall execute. Arguments of the function are stored in <code>$1</code>, <code>$2</code>, etc., but <code>$*</code> stores the list of <em>all</em> arguments given, which we humbly and helpfully pass straight through to the <code>ls</code> program.</p>
+<p>I found that I had to log out and back in for the updated <code>$home/.rcrc</code> to be sourced automatically; starting a new instance of rc was not enough. But we can source the new commands manually with the <code>.</code> built-in, as so:</p>
+<pre><code>. $home/.rcrc</code></pre>
+<p>or, if we’re already in the home directory, simply</p>
+<pre><code>. .rcrc</code></pre>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>In rc, the home directory is stored in both the lowercase variable <code>$home</code> and the usual uppercase environment variable <code>$HOME</code>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩</a></p></li>
+<li id="fn2" role="doc-endnote"><p>In rc, the built-in <code>$path</code> variable is a list of directories that is kept in sync with the usual <code>$PATH</code> environment variable, a colon-separated string of the same directories.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩</a></p></li>
+<li id="fn3" role="doc-endnote"><p>I’ve tested this with <a href="https://st.suckless.org/">st</a> and <a href="https://wiki.archlinux.org/index.php/Rxvt-unicode">rxvt-unicode</a>, which identify the user’s shell by reading /etc/passwd (which is what <code>chsh</code> changes). Other terminals may need additional configuration.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩</a></p></li>
+<li id="fn4" role="doc-endnote"><p>Unlike the Bourne shell, rc does not support aliases. Use functions instead (although I found that in some other versions of rc, their names cannot override built-in names like <code>ls</code>).<a href="#fnref4" class="footnote-back" role="doc-backlink">↩</a></p></li>
+</ol>
+</section>
+</body>
+</html>
