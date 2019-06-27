@@ -1,5 +1,5 @@
 ---
-title: 'Linux setup guide: rc shell from Plan 9'
+title: 'Guide to installing the rc shell with line editing in Linux'
 author: Greg Chamberlain
 date: 'Wednesday 26 June, 2019'
 ---
