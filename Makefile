@@ -1,7 +1,7 @@
 source := md
 output := html
 
-# All markdown files in src/ are considered sources.
+# List of markdown files in the source directory.
 sources := $(wildcard $(source)/*.md)
 
 # Convert the list of source files into a list of output files.
