@@ -7,7 +7,7 @@ html/%.html: md/%.md
 	pandoc $< \
 		--output $@ \
 		--standalone \
-		--css=../css/main.css \
+		--css=../css/main.css
 
 css/%.css: sass/%.sass
 	sassc $< \
