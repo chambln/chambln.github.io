@@ -1,7 +1,7 @@
-sources := $(wildcard md/*.md)
-articles := $(patsubst %.md,%.html,$(subst md,html,$(sources)))
+articles_src := $(wildcard md/*.md)
+articles_obj := $(articles_src:md/%.md=html/%.html)
 
-all: $(articles) css/main.css
+all: $(articles_obj) css/main.css
 
 html/%.html: md/%.md
 	pandoc $< \
