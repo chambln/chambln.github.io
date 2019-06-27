@@ -1,21 +1,20 @@
-source := md
-output := html
+sources := $(wildcard md/*.md)
+articles := $(patsubst %.md,%.html,$(subst md,html,$(sources)))
 
-# List of markdown files in the source directory.
-sources := $(wildcard $(source)/*.md)
+all: $(articles) css/main.css
 
-# Convert the list of source files into a list of output files.
-objects := $(patsubst %.md,%.html,$(subst $(source),$(output),$(sources)))
-
-all: $(objects)
-
-# Recipe for converting a Markdown file into html using pandoc.
-$(output)/%.html: $(source)/%.md
-	pandoc \
+html/%.html: md/%.md
+	pandoc $< \
+		--output $@ \
 		--standalone \
 		--css=../css/main.css \
-		--output $@ \
-		$<
+
+css/%.css: sass/%.sass
+	sassc $< \
+		--sass \
+		--style compressed \
+		> $@
 
 clean:
-	rm -f $(output)/*.html
+	rm -f css/*.css
+	rm -f html/*.html
