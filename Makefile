@@ -8,7 +8,8 @@ html/%.html: md/%.md
 		--output $@ \
 		--standalone \
 		--css=../css/main.css \
-		--template=templates/article.html
+		--template=templates/article.html \
+		--include-before-body=templates/before.html
 
 css/%.css: sass/%.sass
 	sassc $< \
