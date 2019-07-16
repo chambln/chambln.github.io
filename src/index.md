@@ -3,8 +3,8 @@ pagetitle: 'cosine.blue'
 lang: en-GB
 ---
 
-By Gregory Chamberlain
+### By Gregory Chamberlain
 
-[Github]
+**[GitHub]**
 
-[Github]: https://github.com/chambln
+[GitHub]: https://github.com/chambln
