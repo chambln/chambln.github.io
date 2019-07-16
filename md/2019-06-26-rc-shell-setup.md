@@ -2,6 +2,10 @@
 title: 'Guide to installing the rc shell with line editing in Linux'
 author: Greg Chamberlain
 date: 'Wednesday 26 June, 2019'
+description: |
+    How to compile and install Byron Rakitzis' reimplementation of the
+    rc shell from Plan 9—an expressive and thoughtfully designed
+    alternative to the ubiquitous Bourne-compatible shells of today.
 ---
 
 Introduction
