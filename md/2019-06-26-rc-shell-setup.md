@@ -8,9 +8,9 @@ Introduction
 ------------
 
 This article demonstrates how to download, compile and install Byron
-Rakitzis' reimplementation of the Plan 9 shell, called *rc*. The first
-section is a brief history of *rc* and some of its newer forms, but feel
-free to skip ahead to the actual guide.
+Rakitzis' reimplementation of the *rc* shell, originally from the Plan 9
+system. The first section is a brief history of *rc* and some of its
+newer forms, but feel free to skip ahead to the actual guide.
 
 History
 -------

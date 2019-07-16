@@ -37,7 +37,7 @@
                                 <p class="date">Wednesday 26 June, 2019</p>
                   </header>
                   <h2 id="introduction">Introduction</h2>
-<p>This article demonstrates how to download, compile and install Byron Rakitzis’ reimplementation of the Plan 9 shell, called <em>rc</em>. The first section is a brief history of <em>rc</em> and some of its newer forms, but feel free to skip ahead to the actual guide.</p>
+<p>This article demonstrates how to download, compile and install Byron Rakitzis’ reimplementation of the <em>rc</em> shell, originally from the Plan 9 system. The first section is a brief history of <em>rc</em> and some of its newer forms, but feel free to skip ahead to the actual guide.</p>
 <h2 id="history">History</h2>
 <p>Around 10 years or so after creating Unix, the Computing Science Research Center at AT&amp;T Bell Labs developed the <a href="https://9p.io/plan9">Plan 9</a> operating system, which further riffed on the Unix philosophy. It was only used internally at Bell Labs until the early '90s when they made it available to universities and businesses. Eventually they released it under an open-source license. Today it’s only really used by hobbyists and people learning about operating systems.</p>
 <p>Anyway, <em>rc</em> (short for <em>“run commands”</em>) was the system’s canonical command-line interpreter, and it’s ace. Its syntax is much simpler than that of the established Bourne shell from which Bash and most other contemporary shells derive; and rc’s handling of strings and special characters makes it less error-prone overall.</p>
@@ -93,10 +93,10 @@ chsh $USER --shell `{ which rc }</code></pre>
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>In rc, the home directory is stored in both the lowercase variable <code>$home</code> and the usual uppercase environment variable <code>$HOME</code>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩</a></p></li>
-<li id="fn2" role="doc-endnote"><p>In rc, the built-in <code>$path</code> variable is a list of directories that is kept in sync with the usual <code>$PATH</code> environment variable, a colon-separated string of the same directories.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩</a></p></li>
-<li id="fn3" role="doc-endnote"><p>I’ve tested this with <a href="https://st.suckless.org/">st</a> and <a href="https://wiki.archlinux.org/index.php/Rxvt-unicode">rxvt-unicode</a>, which identify the user’s shell by reading /etc/passwd (which is what <code>chsh</code> changes). Other terminals may need additional configuration.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩</a></p></li>
-<li id="fn4" role="doc-endnote"><p>Unlike the Bourne shell, rc does not support aliases. Use functions instead (although I found that in some other versions of rc, their names cannot override built-in names like <code>ls</code>).<a href="#fnref4" class="footnote-back" role="doc-backlink">↩</a></p></li>
+<li id="fn1" role="doc-endnote"><p>In rc, the home directory is stored in both the lowercase variable <code>$home</code> and the usual uppercase environment variable <code>$HOME</code>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>In rc, the built-in <code>$path</code> variable is a list of directories that is kept in sync with the usual <code>$PATH</code> environment variable, a colon-separated string of the same directories.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>I’ve tested this with <a href="https://st.suckless.org/">st</a> and <a href="https://wiki.archlinux.org/index.php/Rxvt-unicode">rxvt-unicode</a>, which identify the user’s shell by reading /etc/passwd (which is what <code>chsh</code> changes). Other terminals may need additional configuration.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>Unlike the Bourne shell, rc does not support aliases. Use functions instead (although I found that in some other versions of rc, their names cannot override built-in names like <code>ls</code>).<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
           </article>
