@@ -89,7 +89,7 @@ chsh $USER --shell `{ which rc }</code></pre>
 <li id="fn1" role="doc-endnote"><p>In <em>rc</em>, the home directory is stored in both the lowercase variable <code>$home</code> and the usual uppercase environment variable <code>$HOME</code>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2" role="doc-endnote"><p>In <em>rc</em>, the built-in <code>$path</code> variable is a list of directories that is kept in sync with the usual <code>$PATH</code> environment variable, a colon-separated string of the same directories.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3" role="doc-endnote"><p>I’ve tested this with <a href="https://st.suckless.org/">st</a> and <a href="https://wiki.archlinux.org/index.php/Rxvt-unicode">rxvt-unicode</a>, which identify the user’s shell by reading /etc/passwd (which is what <code>chsh</code> changes). Other terminals may need additional configuration.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>Unlike the Bourne shell, <em>rc</em> does not support aliases. Use functions instead (although I found that in some other versions of <em>rc</em>, their names cannot override built-in names like <code>ls</code>).<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>Unlike the Bourne shell, <em>rc</em> does not support aliases. Use functions instead! The <code>builtin</code> keyword should be used to avoid infinite recursion.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 <hr/>

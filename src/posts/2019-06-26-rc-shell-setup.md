@@ -168,9 +168,9 @@ or, if we're already in the home directory, simply
   user's shell by reading /etc/passwd (which is what `chsh` changes).
   Other terminals may need additional configuration.
 
-[^4]: Unlike the Bourne shell, *rc* does not support aliases. Use
-  functions instead (although I found that in some other versions of
-  *rc*, their names cannot override built-in names like `ls`).
+[^4]: Unlike the Bourne shell, *rc* does not support aliases.  Use
+  functions instead!  The `builtin` keyword should be used to avoid
+  infinite recursion.
 
   [Plan 9]: https://9p.io/plan9
   [Plan 9 from User Space]: https://9fans.github.io/plan9port
