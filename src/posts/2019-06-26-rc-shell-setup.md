@@ -31,7 +31,7 @@ and people learning about operating systems.
 Anyway, *rc* (short for *"run commands"*) was the system's canonical
 command-line interpreter, and it's ace. Its syntax is much simpler than
 that of the established Bourne shell from which Bash and most other
-contemporary shells derive; and *rc*'s handling of strings and special
+contemporary shells derive; and *rc*\'s handling of strings and special
 characters makes it less error-prone overall.
 
 Many tools from Plan 9, including its fantastic *rc* shell, have been
