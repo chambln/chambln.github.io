@@ -1,0 +1,20 @@
+<li>
+$if(title)$
+<h3 class="title">
+    <a href="$filename$">$title$</a>
+</h3>
+$endif$
+$if(subtitle)$
+<p class="subtitle">$subtitle$</p>
+$endif$
+$for(author)$
+<p class="author">$author$</p>
+$endfor$
+$if(date)$
+<p class="date">$date$</p>
+$endif$
+$if(description)$
+<p class="description">$description$</p>
+$endif$
+</li>
+
