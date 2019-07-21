@@ -1,13 +1,3 @@
-Build dependencies:
+Static website generated with [`red`][1].
 
--   GNU Make
--   Pandoc
--   A LibSass wrapper such as `sassc` (edit the Makefile to change)
-
-Build:
-
-    make
-
-Rebuild:
-
-    make clean all
+[1]: https://github.com/chambln/red
