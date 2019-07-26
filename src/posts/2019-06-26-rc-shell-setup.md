@@ -1,5 +1,5 @@
 ---
-title: 'Guide to installing the *rc* shell with line editing in Linux'
+title: 'Guide to Installing the *rc* Shell with Line Editing in Linux'
 author: Gregory Chamberlain
 date: 'Wednesday 26 June, 2019'
 lang: en-GB
