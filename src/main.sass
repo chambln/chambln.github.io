@@ -1,34 +1,48 @@
+$a: #f9ab1e
+$b: #18749b
+$c: #fbfbfb
+$d: #545454
+$e: #a1b9c4
+
+$line-height: 1.4em
+
+::selection
+  background: $e
+
+::-moz-selection
+  background: $e
+
 body
-  font-family: "Linux Libertine", "Times New Roman", serif
-  max-width: 36em
+  font: small "Inconsolata", "Hack", "Consolas", monospace
   margin: 0 auto
-  line-height: 1.3
-  background-color: #f9f9f9
-  text-align: justify
+  max-width: 36em
+  color: $d
+  background: $c
 
 a
   text-decoration: none
-  color: #d9534f
+  color: $b
 
-a:hover, a code:hover
-  background-color: #d9534f
-  color: #f6f3f1
+h1, h2, h3, h4, h5, h6,
+  font-family: "Linux Libertine", "Times New Roman", "Cambria", serif
 
-pre, code, .logo
-  font-family: "Inconsolata", "Hack", "Consolas", monospace
+#logo
+ font-family: monospace
+ font-weight: normal
+
+p
+  text-align: justify
+  line-height: $line-height
 
 pre, code
-  background-color: #eeeeee
+  font: inherit
+  line-height: $line-height
+  background: #eee
 
 pre
-  padding: 0.6em 1.0em
+  padding: 4px 10px
+  code
+    padding: 0
 
 code
-  padding: 0.12em 0.18em
-
-h1, h2, h3, h4, h5, h6
-  font-family: "Arial", sans-serif
-  color: #428bca
-
-blockquote
-  font-size: 90%
+  padding: 1px 3px
