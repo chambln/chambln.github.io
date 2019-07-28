@@ -5,7 +5,7 @@ date: 'Wednesday 26 June, 2019'
 lang: en-GB
 description: |
     How to compile and install Byron Rakitzis' reimplementation of the
-    *rc* shell from Plan 9—an expressive and thoughtfully designed
+    *rc* shell from Plan 9 — an expressive and thoughtfully designed
     alternative to the ubiquitous Bourne-compatible shells of today.
 ---
 
