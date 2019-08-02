@@ -12,6 +12,69 @@
       span.underline{text-decoration: underline;}
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
+  <style>
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
   <link rel="stylesheet" href="main.css" />
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
@@ -39,19 +102,19 @@
 <p>I recommend installing <a href="https://github.com/rakitzis/rc" title="rc shell -- independent re-implementation for Unix of the Plan 9 shell (from circa 1992).">Byron Rakitzis’ reimplementation of <em>rc</em></a>, which provides such nice features as <strong>line editing</strong> and <strong>tab completions</strong>.</p>
 <h3 id="compile-from-source">Compile from source</h3>
 <p>Clone the GitHub repository and run the bootstrap script:</p>
-<pre><code>git clone https://github.com/rakitzis/rc
-cd rc
-./bootstrap</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">git</span> clone https://github.com/rakitzis/rc</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="bu">cd</span> rc</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="ex">./bootstrap</span></span></code></pre></div>
 <p>This generates an <code>INSTALL</code> file with detailed instructions. Then configure and build like so:</p>
-<pre><code>sh configure --with-edit=readline
-make
-sudo make install</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">sh</span> configure --with-edit=readline</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">make</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="fu">sudo</span> make install</span></code></pre></div>
 <p>You now have <em>rc</em> installed on your machine. To uninstall, use <code>sudo make uninstall</code> in that same directory.</p>
 <h2 id="start-the-rc-shell">Start the <em>rc</em> shell</h2>
 <p>You may need to log out and back in for it to work. Start the shell by typing</p>
-<pre><code>rc</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="ex">rc</span></span></code></pre></div>
 <p>or, in order to have <em>rc</em> behave as a <strong>login shell</strong>, pass the <code>-l</code> flag:</p>
-<pre><code>rc -l</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="ex">rc</span> -l</span></code></pre></div>
 <p>As described in the manual (<code>man rc</code>), this tells <em>rc</em> to source <code>$home/.rcrc</code> when it starts.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Much like one’s <a href="https://wiki.archlinux.org/index.php/Bash#Configuration_files"><code>.bashrc</code></a>, you might like to populate that file with commands that</p>
 <ul>
 <li>change your <code>$prompt</code></li>
@@ -65,23 +128,23 @@ sudo make install</code></pre>
 <p>[t]he reason for this is that it enables an <em>rc</em> user to grab commands from previous lines using a mouse, and to present them to <em>rc</em> for re-interpretation; the semicolon prompt is simply ignored by <em>rc</em>.</p>
 </blockquote>
 <p>To quit the shell, press CTRL-D or type</p>
-<pre><code>exit</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="bu">exit</span></span></code></pre></div>
 <h2 id="make-rc-your-login-shell">Make <em>rc</em> your login shell</h2>
 <p>When you open your terminal, the first program it runs is your <strong>login shell</strong>. On most Linux machines, users’ login shells are set to Bash by default. Changing your login shell is easy to do.</p>
 <p>Firstly, add <em>rc</em>’s full path to your machine’s list of approved login shells. This must be done as root, as so:</p>
-<pre><code>sudo su -c &#39;which rc &gt;&gt; /etc/shells&#39;</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">sudo</span> su -c <span class="st">&#39;which rc &gt;&gt; /etc/shells&#39;</span></span></code></pre></div>
 <p>Let’s do this next step in an <em>rc</em> shell, demonstrating its backquote substitution (analogous to the Bourne shell’s command substitution). And we’ll use the built-in <a href="http://man7.org/linux/man-pages/man1/chsh.1.html"><code>chsh</code></a> utility:</p>
-<pre><code>rc
-chsh $USER --shell `{ which rc }</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="ex">rc</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="fu">chsh</span> <span class="va">$USER</span> --shell <span class="kw">`{</span> <span class="fu">which</span> rc <span class="kw">}</span></span></code></pre></div>
 <p>That’s it! Next time you log in as the same user, your tty and terminals will start with the <em>rc</em> shell.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> This has had no effect on other users; so if your <em>rc</em> executable breaks or disappears, you can simply log in as root and change your shell back to Bash or what have you.</p>
 <h2 id="make-use-of-run-commands">Make use of run commands</h2>
 <p>Many users like to use <code>la</code> as an alias to <code>ls -A</code>. To implement this in our <em>rc</em>, let’s define a function in <strong><code>$home/.rcrc</code></strong>.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
-<pre><code>fn la { ls -A $* }   </code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="ex">fn</span> la { ls -A <span class="va">$*</span> }   </span></code></pre></div>
 <p>In short, <code>fn</code> is the keyword for creating functions, and the braces contain the sequence of commands the function shall execute. Arguments of the function are stored in <code>$1</code>, <code>$2</code>, etc., but <code>$*</code> stores the list of <em>all</em> arguments given, which we humbly and helpfully pass straight through to the <code>ls</code> program.</p>
 <p>I found that I had to log out and back in for the updated <code>$home/.rcrc</code> to be sourced automatically; starting a new instance of <em>rc</em> was not enough. But we can source the new commands manually with the <code>.</code> built-in, as so:</p>
-<pre><code>. $home/.rcrc</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a><span class="bu">.</span> <span class="va">$home</span><span class="ex">/.rcrc</span></span></code></pre></div>
 <p>or, if we’re already in the home directory, simply</p>
-<pre><code>. .rcrc</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a><span class="bu">.</span> <span class="ex">.rcrc</span></span></code></pre></div>
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>

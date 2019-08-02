@@ -57,16 +57,20 @@ completions**.
 
 Clone the GitHub repository and run the bootstrap script:
 
-    git clone https://github.com/rakitzis/rc
-    cd rc
-    ./bootstrap
+```bash
+git clone https://github.com/rakitzis/rc
+cd rc
+./bootstrap
+```
 
 This generates an `INSTALL` file with detailed instructions. Then
 configure and build like so:
 
-    sh configure --with-edit=readline
-    make
-    sudo make install
+```bash
+sh configure --with-edit=readline
+make
+sudo make install
+```
 
 You now have *rc* installed on your machine. To uninstall, use `sudo
 make uninstall` in that same directory.
@@ -77,12 +81,16 @@ Start the *rc* shell
 You may need to log out and back in for it to work. Start the shell by
 typing
 
-    rc
+```bash
+rc
+```
 
 or, in order to have *rc* behave as a **login shell**, pass the `-l`
 flag:
 
-    rc -l
+```bash
+rc -l
+```
 
 As described in the manual (`man rc`), this tells *rc* to source
 `$home/.rcrc` when it starts.[^1] Much like one's [`.bashrc`], you
@@ -104,7 +112,9 @@ to the manual,
 
 To quit the shell, press CTRL-D or type
 
-    exit
+```bash
+exit
+```
 
 Make *rc* your login shell
 --------------------------
@@ -116,14 +126,18 @@ default. Changing your login shell is easy to do.
 Firstly, add *rc*'s full path to your machine's list of approved login
 shells. This must be done as root, as so:
 
-    sudo su -c 'which rc >> /etc/shells'
+```bash
+sudo su -c 'which rc >> /etc/shells'
+```
 
 Let's do this next step in an *rc* shell, demonstrating its backquote
 substitution (analogous to the Bourne shell's command substitution).
 And we'll use the built-in [`chsh`] utility:
 
-    rc
-    chsh $USER --shell `{ which rc }
+```bash
+rc
+chsh $USER --shell `{ which rc }
+```
 
 That's it! Next time you log in as the same user, your tty and
 terminals will start with the *rc* shell.[^3] This has had no effect on
@@ -137,7 +151,9 @@ Make use of run commands
 Many users like to use `la` as an alias to `ls -A`. To implement this
 in our *rc*, let's define a function in **`$home/.rcrc`**.[^4]
 
-    fn la { ls -A $* }   
+```bash
+fn la { ls -A $* }   
+```
 
 In short, `fn` is the keyword for creating functions, and the braces
 contain the sequence of commands the function shall execute. Arguments
@@ -150,11 +166,15 @@ to be sourced automatically; starting a new instance of *rc* was not
 enough. But we can source the new commands manually with the `.`
 built-in, as so:
 
-    . $home/.rcrc
+```bash
+. $home/.rcrc
+```
 
 or, if we're already in the home directory, simply
 
-    . .rcrc
+```bash
+. .rcrc
+```
 
 [^1]: In *rc*, the home directory is stored in both the lowercase
   variable `$home` and the usual uppercase environment variable

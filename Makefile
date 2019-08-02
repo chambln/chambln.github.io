@@ -36,7 +36,8 @@ tmp/%.html: src/posts/%.md
 		-B src/header.html \
 		-A src/footer.html \
 		--template=template/post \
-		--css=main.css
+		--css=main.css \
+		--highlight tango
 
 %.html: src/%.md
 	pandoc $< -so $@ \
