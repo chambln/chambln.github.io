@@ -1,0 +1,66 @@
+$a: #f9ab1e;
+$b: #18749b;
+$c: #fbfbfb;
+$d: #545454;
+$e: #a1b9c4;
+
+$line-height: 1.4em;
+
+::selection {
+  background: $e;
+}
+
+::-moz-selection {
+  background: $e;
+}
+
+body {
+  font: large "Inconsolata", "Hack", "Consolas", monospace;
+  margin: 0 auto;
+  padding: 1em;
+  max-width: 36em;
+  color: $d;
+  background: $c;
+}
+
+a {
+  text-decoration: none;
+  color: $b;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Linux Libertine", "Times New Roman", "Cambria", serif;
+}
+
+#logo {
+  font-family: monospace;
+  font-weight: normal;
+}
+
+p {
+  text-align: justify;
+  line-height: $line-height;
+}
+
+pre,
+code {
+  font: inherit;
+  line-height: $line-height;
+  background: #eee;
+}
+
+pre {
+  padding: 4px 10px;
+  code {
+    padding: 0;
+  }
+}
+
+code {
+  padding: 1px 3px;
+}

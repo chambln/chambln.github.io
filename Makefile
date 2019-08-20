@@ -47,8 +47,8 @@ tmp/%.html: src/posts/%.md
 		--template=template/post \
 		--css=main.css
 
-%.css: src/%.sass
-	sassc $< -at compressed > $@
+%.css: src/%.scss
+	sassc $< -t compressed > $@
 
 clean:
 	@rm -fv *.html *.css
