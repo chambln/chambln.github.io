@@ -1,20 +1,20 @@
 ---
-title: 'Guide to Installing the *rc* Shell with Line Editing in Linux'
 author: Gregory Chamberlain
 date: 'Wednesday 26 June, 2019'
-lang: en-GB
 description: |
-    How to compile and install Byron Rakitzis' reimplementation of the
-    *rc* shell from Plan 9 — an expressive and thoughtfully designed
+    How to compile and install Byron Rakitzis' reimplementation of the *rc*
+    shell from Plan 9 --- an expressive and thoughtfully designed
     alternative to the ubiquitous Bourne-compatible shells of today.
+lang: 'en-GB'
+title: 'Guide to Installing the *rc* Shell with Line Editing in Linux'
 ---
 
 Introduction
 ------------
 
 This article demonstrates how to download, compile and install Byron
-Rakitzis' reimplementation of the *rc* shell, originally from the Plan
-9 system. The first section is a brief history of *rc* and some of its
+Rakitzis' reimplementation of the *rc* shell, originally from the Plan 9
+system. The first section is a brief history of *rc* and some of its
 newer forms, but feel free to skip ahead to the actual guide.
 
 History
@@ -49,15 +49,14 @@ GNU readline, which is why I much prefer it for interactive use.
 Install the *rc* shell
 ----------------------
 
-I recommend installing [Byron Rakitzis' reimplementation of *rc*],
-which provides such nice features as **line editing** and **tab
-completions**.
+I recommend installing [Byron Rakitzis' reimplementation of *rc*], which
+provides such nice features as **line editing** and **tab completions**.
 
 ### Compile from source
 
 Clone the GitHub repository and run the bootstrap script:
 
-```bash
+``` {.bash}
 git clone https://github.com/rakitzis/rc
 cd rc
 ./bootstrap
@@ -66,14 +65,14 @@ cd rc
 This generates an `INSTALL` file with detailed instructions. Then
 configure and build like so:
 
-```bash
+``` {.bash}
 sh configure --with-edit=readline
 make
 sudo make install
 ```
 
-You now have *rc* installed on your machine. To uninstall, use `sudo
-make uninstall` in that same directory.
+You now have *rc* installed on your machine. To uninstall, use
+`sudo make uninstall` in that same directory.
 
 Start the *rc* shell
 --------------------
@@ -81,20 +80,20 @@ Start the *rc* shell
 You may need to log out and back in for it to work. Start the shell by
 typing
 
-```bash
+``` {.bash}
 rc
 ```
 
 or, in order to have *rc* behave as a **login shell**, pass the `-l`
 flag:
 
-```bash
+``` {.bash}
 rc -l
 ```
 
 As described in the manual (`man rc`), this tells *rc* to source
-`$home/.rcrc` when it starts.[^1] Much like one's [`.bashrc`], you
-might like to populate that file with commands that
+`$home/.rcrc` when it starts.[^1] Much like one's [`.bashrc`], you might
+like to populate that file with commands that
 
 -   change your `$prompt`
 -   change your `$path`[^2]
@@ -112,7 +111,7 @@ to the manual,
 
 To quit the shell, press CTRL-D or type
 
-```bash
+``` {.bash}
 exit
 ```
 
@@ -126,71 +125,70 @@ default. Changing your login shell is easy to do.
 Firstly, add *rc*'s full path to your machine's list of approved login
 shells. This must be done as root, as so:
 
-```bash
+``` {.bash}
 sudo su -c 'which rc >> /etc/shells'
 ```
 
 Let's do this next step in an *rc* shell, demonstrating its backquote
-substitution (analogous to the Bourne shell's command substitution).
-And we'll use the built-in [`chsh`] utility:
+substitution (analogous to the Bourne shell's command substitution). And
+we'll use the built-in [`chsh`] utility:
 
-```bash
+``` {.bash}
 rc
 chsh $USER --shell `{ which rc }
 ```
 
-That's it! Next time you log in as the same user, your tty and
-terminals will start with the *rc* shell.[^3] This has had no effect on
-other users; so if your *rc* executable breaks or disappears, you can
-simply log in as root and change your shell back to Bash or what have
-you.
+That's it! Next time you log in as the same user, your tty and terminals
+will start with the *rc* shell.[^3] This has had no effect on other
+users; so if your *rc* executable breaks or disappears, you can simply
+log in as root and change your shell back to Bash or what have you.
 
 Make use of run commands
 ------------------------
 
-Many users like to use `la` as an alias to `ls -A`. To implement this
-in our *rc*, let's define a function in **`$home/.rcrc`**.[^4]
+Many users like to use `la` as an alias to `ls -A`. To implement this in
+our *rc*, let's define a function in **`$home/.rcrc`**.[^4]
 
-```bash
+``` {.bash}
 fn la { ls -A $* }   
 ```
 
 In short, `fn` is the keyword for creating functions, and the braces
 contain the sequence of commands the function shall execute. Arguments
-of the function are stored in `$1`, `$2`, etc., but `$*` stores the
-list of *all* arguments given, which we humbly and helpfully pass
-straight through to the `ls` program.
+of the function are stored in `$1`, `$2`, etc., but `$*` stores the list
+of *all* arguments given, which we humbly and helpfully pass straight
+through to the `ls` program.
 
 I found that I had to log out and back in for the updated `$home/.rcrc`
 to be sourced automatically; starting a new instance of *rc* was not
 enough. But we can source the new commands manually with the `.`
 built-in, as so:
 
-```bash
+``` {.bash}
 . $home/.rcrc
 ```
 
 or, if we're already in the home directory, simply
 
-```bash
+``` {.bash}
 . .rcrc
 ```
 
 [^1]: In *rc*, the home directory is stored in both the lowercase
-  variable `$home` and the usual uppercase environment variable
-  `$HOME`.
+    variable `$home` and the usual uppercase environment variable
+    `$HOME`.
 
 [^2]: In *rc*, the built-in `$path` variable is a list of directories
-  that is kept in sync with the usual `$PATH` environment variable, a
-  colon-separated string of the same directories.
+    that is kept in sync with the usual `$PATH` environment variable, a
+    colon-separated string of the same directories.
 
 [^3]: I've tested this with [st] and [rxvt-unicode], which identify the
-  user's shell by reading /etc/passwd (which is what `chsh` changes).
-  Other terminals may need additional configuration.
+    user's shell by reading /etc/passwd (which is what `chsh` changes).
+    Other terminals may need additional configuration.
 
-[^4]: Unlike the Bourne shell, *rc* does not support aliases.  Use
-  functions instead!  The `builtin` keyword should be used to avoid
-  infinite recursion.
+[^4]: Unlike the Bourne shell, *rc* does not support aliases. Use
+    functions instead! The `builtin` keyword should be used to avoid
+    infinite recursion.
 
   [Plan 9]: https://9p.io/plan9
   [Plan 9 from User Space]: https://9fans.github.io/plan9port
