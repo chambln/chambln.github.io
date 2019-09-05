@@ -75,7 +75,6 @@ body {
   max-width: 32em;
   margin: 0 auto;
   padding: 1em;
-  line-height: 1.35;
   color: $foreground;
 }
 
@@ -133,14 +132,7 @@ a {
 p {
   hyphens: auto;
   text-align: justify;
-}
-article > p:first-of-type:first-letter {
-  float: left;
-  font-size: 262%;
-  line-height: 1;
-  font-weight: bold;
-  margin-right: 0.15em;
-  color: $violet;
+  line-height: 1.35;
 }
 
 pre,
