@@ -49,7 +49,7 @@ $if(title)$
 <header id="title-block-header">
 <h1 class="title">$title$</h1>
 $if(subtitle)$
-<div class="subtitle">$subtitle$</div>
+<p class="subtitle">$subtitle$</p>
 $endif$
 $for(author)$
 <p class="author"><a href="contact.html">$author$</a></p>
@@ -64,9 +64,7 @@ $if(toc)$
 $table-of-contents$
 </nav>
 $endif$
-<article>
 $body$
-</article>
 $for(include-after)$
 $include-after$
 $endfor$

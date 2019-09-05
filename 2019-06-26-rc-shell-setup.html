@@ -42,38 +42,39 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  background-color: #f8f8f8; }
+  {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ef2929; } /* Alert */
-code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #c4a000; } /* Attribute */
-code span.bn { color: #0000cf; } /* BaseN */
-code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4e9a06; } /* Char */
-code span.cn { color: #000000; } /* Constant */
-code span.co { color: #8f5902; font-style: italic; } /* Comment */
-code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
-code span.dt { color: #204a87; } /* DataType */
-code span.dv { color: #0000cf; } /* DecVal */
-code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
-code span.fl { color: #0000cf; } /* Float */
-code span.fu { color: #000000; } /* Function */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
 code span.im { } /* Import */
-code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
-code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
-code span.ot { color: #8f5902; } /* Other */
-code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
-code span.sc { color: #000000; } /* SpecialChar */
-code span.ss { color: #4e9a06; } /* SpecialString */
-code span.st { color: #4e9a06; } /* String */
-code span.va { color: #000000; } /* Variable */
-code span.vs { color: #4e9a06; } /* VerbatimString */
-code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="main.css" />
   <!--[if lt IE 9]>
@@ -83,24 +84,26 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <body>
 <header>
     <a href="index.html">
-        <h2 id="logo">cosine.blue</h2>
+        <h1 id="logo">(<b>cosine</b><span style="padding: 0 0.25em">.</span><span style="color:black;">blue</span>)</h1>
     </a>
 </header>
-<hr/>
 <header id="title-block-header">
 <h1 class="title">Guide to Installing the <em>rc</em> Shell with Line Editing in Linux</h1>
+<div class="subtitle"><p>How to compile and install Byron Rakitzis’ reimplementation of the <em>rc</em> shell from Plan 9—an expressive and thoughtfully designed alternative to the ubiquitous Bourne-compatible shells of today.</p></div>
+<p class="author"><a href="contact.html">Gregory Chamberlain</a></p>
 <p class="date">Wednesday 26 June, 2019</p>
 </header>
-<h2 id="introduction">Introduction</h2>
+<article>
+<h1 id="introduction"><span class="header-section-number">1</span> Introduction</h1>
 <p>This article demonstrates how to download, compile and install Byron Rakitzis’ reimplementation of the <em>rc</em> shell, originally from the Plan 9 system. The first section is a brief history of <em>rc</em> and some of its newer forms, but feel free to skip ahead to the actual guide.</p>
-<h2 id="history">History</h2>
+<h1 id="history"><span class="header-section-number">2</span> History</h1>
 <p>Around 10 years or so after creating Unix, the Computing Science Research Center at AT&amp;T Bell Labs developed the <a href="https://9p.io/plan9">Plan 9</a> operating system, which further riffed on the Unix philosophy. It was only used internally at Bell Labs until the early '90s when they made it available to universities and businesses. Eventually they released it under an open-source license. Today it’s only really used by hobbyists and people learning about operating systems.</p>
 <p>Anyway, <em>rc</em> (short for <em>“run commands”</em>) was the system’s canonical command-line interpreter, and it’s ace. Its syntax is much simpler than that of the established Bourne shell from which Bash and most other contemporary shells derive; and <em>rc</em>'s handling of strings and special characters makes it less error-prone overall.</p>
 <p>Many tools from Plan 9, including its fantastic <em>rc</em> shell, have been ported to Unix-like systems under the name <em><a href="https://9fans.github.io/plan9port">Plan 9 from User Space</a></em> (a.k.a. plan9port). A subset of these programs packaged as <a href="http://tools.suckless.org/9base/">9base</a> is provided by Suckless. The two are probably available from your distribution’s package repository (but keep reading).</p>
 <p>An independent project by Byron Rakitzis saw a reimplementation of the <em>rc</em> shell for Unix-like systems. His implementation differs very slightly from the <em>true</em> Plan 9 shell (as ported by plan9port), but before compiling it can be linked with line-editing libraries such as GNU readline, which is why I much prefer it for interactive use.</p>
-<h2 id="install-the-rc-shell">Install the <em>rc</em> shell</h2>
+<h1 id="install-the-rc-shell"><span class="header-section-number">3</span> Install the <em>rc</em> shell</h1>
 <p>I recommend installing <a href="https://github.com/rakitzis/rc" title="rc shell -- independent re-implementation for Unix of the Plan 9 shell (from circa 1992).">Byron Rakitzis’ reimplementation of <em>rc</em></a>, which provides such nice features as <strong>line editing</strong> and <strong>tab completions</strong>.</p>
-<h3 id="compile-from-source">Compile from source</h3>
+<h2 id="compile-from-source"><span class="header-section-number">3.1</span> Compile from source</h2>
 <p>Clone the GitHub repository and run the bootstrap script:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">git</span> clone https://github.com/rakitzis/rc</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="bu">cd</span> rc</span>
@@ -110,7 +113,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-2"><a href="#cb2-2"></a><span class="fu">make</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="fu">sudo</span> make install</span></code></pre></div>
 <p>You now have <em>rc</em> installed on your machine. To uninstall, use <code>sudo make uninstall</code> in that same directory.</p>
-<h2 id="start-the-rc-shell">Start the <em>rc</em> shell</h2>
+<h1 id="start-the-rc-shell"><span class="header-section-number">4</span> Start the <em>rc</em> shell</h1>
 <p>You may need to log out and back in for it to work. Start the shell by typing</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="ex">rc</span></span></code></pre></div>
 <p>or, in order to have <em>rc</em> behave as a <strong>login shell</strong>, pass the <code>-l</code> flag:</p>
@@ -129,7 +132,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </blockquote>
 <p>To quit the shell, press CTRL-D or type</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="bu">exit</span></span></code></pre></div>
-<h2 id="make-rc-your-login-shell">Make <em>rc</em> your login shell</h2>
+<h1 id="make-rc-your-login-shell"><span class="header-section-number">5</span> Make <em>rc</em> your login shell</h1>
 <p>When you open your terminal, the first program it runs is your <strong>login shell</strong>. On most Linux machines, users’ login shells are set to Bash by default. Changing your login shell is easy to do.</p>
 <p>Firstly, add <em>rc</em>’s full path to your machine’s list of approved login shells. This must be done as root, as so:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">sudo</span> su -c <span class="st">&#39;which rc &gt;&gt; /etc/shells&#39;</span></span></code></pre></div>
@@ -137,7 +140,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="ex">rc</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="fu">chsh</span> <span class="va">$USER</span> --shell <span class="kw">`{</span> <span class="fu">which</span> rc <span class="kw">}</span></span></code></pre></div>
 <p>That’s it! Next time you log in as the same user, your tty and terminals will start with the <em>rc</em> shell.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> This has had no effect on other users; so if your <em>rc</em> executable breaks or disappears, you can simply log in as root and change your shell back to Bash or what have you.</p>
-<h2 id="make-use-of-run-commands">Make use of run commands</h2>
+<h2 id="make-use-of-run-commands"><span class="header-section-number">5.1</span> Make use of run commands</h2>
 <p>Many users like to use <code>la</code> as an alias to <code>ls -A</code>. To implement this in our <em>rc</em>, let’s define a function in <strong><code>$home/.rcrc</code></strong>.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="ex">fn</span> la { ls -A <span class="va">$*</span> }   </span></code></pre></div>
 <p>In short, <code>fn</code> is the keyword for creating functions, and the braces contain the sequence of commands the function shall execute. Arguments of the function are stored in <code>$1</code>, <code>$2</code>, etc., but <code>$*</code> stores the list of <em>all</em> arguments given, which we humbly and helpfully pass straight through to the <code>ls</code> program.</p>
@@ -154,7 +157,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li id="fn4" role="doc-endnote"><p>Unlike the Bourne shell, <em>rc</em> does not support aliases. Use functions instead! The <code>builtin</code> keyword should be used to avoid infinite recursion.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
-<hr/>
+</article>
 <footer>
     © 2019 Gregory L. Chamberlain
 </footer>

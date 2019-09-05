@@ -1,31 +1,112 @@
-$a: #f9ab1e;
-$b: #18749b;
-$c: #fbfbfb;
-$d: #545454;
-$e: #a1b9c4;
+@import url("https://fonts.googleapis.com/css?family=Inconsolata:400,700&display=swap");
 
-$line-height: 1.4em;
-
-::selection {
-  background: $e;
+@font-face {
+  font-family: "Linux Libertine";
+  src: url("fonts/libertine/linux-libertine/libertine-R.ttf") format("truetype"),
+    url("fonts/libertine/linux-libertine/libertine-R.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Linux Libertine";
+  src: url("fonts/libertine/linux-libertine/libertine-RB.ttf")
+      format("truetype"),
+    url("fonts/libertine/linux-libertine/libertine-RB.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Linux Libertine";
+  src: url("fonts/libertine/linux-libertine/libertine-RI.ttf")
+      format("truetype"),
+    url("fonts/libertine/linux-libertine/libertine-RI.woff") format("woff");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Linux Libertine";
+  src: url("fonts/libertine/linux-libertine/libertine-RBI.ttf")
+      format("truetype"),
+    url("fonts/libertine/linux-libertine/libertine-RBI.woff") format("woff");
+  font-weight: bold;
+  font-style: italic;
 }
 
+@font-face {
+  font-family: "Linux Biolinum";
+  src: url("fonts/libertine/linux-biolinum/biolinum-R.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Linux Biolinum";
+  src: url("fonts/libertine/linux-biolinum/biolinum-RB.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Linux Biolinum";
+  src: url("fonts/libertine/linux-biolinum/biolinum-RI.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+
+$monospace: "Inconsolata", "Hack", "Consolas", monospace;
+$serif: "Linux Libertine", "Cambria", serif;
+$sans-serif: "Linux Biolinum", "Helvetica", "Arial", sans-serif;
+
+$foreground: #352e30;
+$foreground-fade: gray;
+$background: white;
+$background-shade: lightgray;
+$blue: #4172a3;
+$violet-fade: #aeaece;
+$violet: #9090c0;
+
+::selection {
+  background: $background-shade;
+}
 ::-moz-selection {
-  background: $e;
+  background: $background-shade;
 }
 
 body {
-  font: large "Inconsolata", "Hack", "Consolas", monospace;
+  font: 1.25em $serif;
+  max-width: 32em;
   margin: 0 auto;
   padding: 1em;
-  max-width: 36em;
-  color: $d;
-  background: $c;
+  line-height: 1.35;
+  color: $foreground;
 }
 
-a {
-  text-decoration: none;
-  color: $b;
+body article {
+  margin-left: 4em;
+}
+
+#logo {
+  font: 2.4em $monospace;
+  font-weight: normal;
+  text-align: center;
+  color: $background-shade;
+  b {
+    color: $blue;
+  }
+}
+
+.subtitle {
+  font-style: italic;
+}
+
+.date {
+  font-variant: small-caps;
+  color: $foreground-fade;
+}
+
+.header-section-number {
+  color: $violet-fade;
+  position: relative;
+  float: right;
+  right: 104%;
 }
 
 h1,
@@ -33,34 +114,86 @@ h2,
 h3,
 h4,
 h5,
-h6 {
-  font-family: "Linux Libertine", "Times New Roman", "Cambria", serif;
+h6,
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
+  font-family: $sans-serif;
+  margin-top: 2em;
 }
 
-#logo {
-  font-family: monospace;
-  font-weight: normal;
+a {
+  text-decoration: none;
+  color: $blue;
 }
 
 p {
+  hyphens: auto;
   text-align: justify;
-  line-height: $line-height;
+}
+article > p:first-of-type:first-letter {
+  float: left;
+  font-size: 262%;
+  line-height: 1;
+  font-weight: bold;
+  margin-right: 0.15em;
+  color: $violet;
 }
 
 pre,
 code {
-  font: inherit;
-  line-height: $line-height;
-  background: #eee;
+  font-family: $monospace;
 }
 
 pre {
-  padding: 4px 10px;
-  code {
-    padding: 0;
+  font-size: 90%;
+}
+
+table {
+  margin: 0 auto;
+  caption {
+    font-variant: small-caps;
+    margin-bottom: 0.5em;
+  }
+  td {
+    padding: 1px 32px 1px 0;
   }
 }
 
-code {
-  padding: 1px 3px;
+hr {
+  overflow: visible; // for IE
+  padding: 0;
+  border: none;
+  border-top: $background-shade solid;
+  margin: 3em 0 0;
+  text-align: center;
+}
+
+hr:after {
+  display: inline-block;
+  position: relative;
+  top: -0.8em;
+  font-size: 2em;
+  background: white;
+  color: gray;
+  content: "∫";
+}
+
+img,
+figure,
+video {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-variant: small-caps;
+  text-align: center;
+}
+
+footer {
+  margin-top: 2em;
 }

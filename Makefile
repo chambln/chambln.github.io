@@ -31,9 +31,8 @@ all: $(obj_pages) main.css
 index.html: src/index.md archive.html
 	pandoc $< -so $@ \
 		--verbose \
-		-B src/header.html \
 		-A archive.html \
-		-A src/footer.html \
+		-B src/header.html \
 		--css=main.css
 
 archive_li := $(src_posts:src/posts/%.md=tmp/%.html)
@@ -53,18 +52,17 @@ tmp/%.html: src/posts/%.md
 %.html: src/posts/%.md
 	pandoc $< -so $@ \
 		--verbose \
-		-B src/header.html \
 		-A src/footer.html \
+		-B src/header.html \
 		--template=template/post \
 		--css=main.css \
-		--highlight tango
+		--number-sections
 
 %.html: src/%.md
 	pandoc $< -so $@ \
 		--verbose \
 		-B src/header.html \
-		-A src/footer.html \
-		--template=template/post \
+		--template=template/page \
 		--css=main.css
 
 %.css: src/%.scss

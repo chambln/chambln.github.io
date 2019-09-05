@@ -1,16 +1,16 @@
 ---
 author: Gregory Chamberlain
 date: 'Wednesday 26 June, 2019'
-description: |
-    How to compile and install Byron Rakitzis' reimplementation of the *rc*
-    shell from Plan 9 --- an expressive and thoughtfully designed
-    alternative to the ubiquitous Bourne-compatible shells of today.
 lang: 'en-GB'
+subtitle: |
+    How to compile and install Byron Rakitzis' reimplementation of the *rc*
+    shell from Plan 9---an expressive and thoughtfully designed alternative
+    to the ubiquitous Bourne-compatible shells of today.
 title: 'Guide to Installing the *rc* Shell with Line Editing in Linux'
 ---
 
 Introduction
-------------
+============
 
 This article demonstrates how to download, compile and install Byron
 Rakitzis' reimplementation of the *rc* shell, originally from the Plan 9
@@ -18,7 +18,7 @@ system. The first section is a brief history of *rc* and some of its
 newer forms, but feel free to skip ahead to the actual guide.
 
 History
--------
+=======
 
 Around 10 years or so after creating Unix, the Computing Science
 Research Center at AT&T Bell Labs developed the [Plan 9] operating
@@ -47,12 +47,12 @@ before compiling it can be linked with line-editing libraries such as
 GNU readline, which is why I much prefer it for interactive use.
 
 Install the *rc* shell
-----------------------
+======================
 
 I recommend installing [Byron Rakitzis' reimplementation of *rc*], which
 provides such nice features as **line editing** and **tab completions**.
 
-### Compile from source
+## Compile from source
 
 Clone the GitHub repository and run the bootstrap script:
 
@@ -75,7 +75,7 @@ You now have *rc* installed on your machine. To uninstall, use
 `sudo make uninstall` in that same directory.
 
 Start the *rc* shell
---------------------
+====================
 
 You may need to log out and back in for it to work. Start the shell by
 typing
@@ -116,7 +116,7 @@ exit
 ```
 
 Make *rc* your login shell
---------------------------
+==========================
 
 When you open your terminal, the first program it runs is your **login
 shell**. On most Linux machines, users' login shells are set to Bash by
