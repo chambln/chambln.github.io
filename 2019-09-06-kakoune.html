@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Gregory Chamberlain" />
+  <title>The Vim-Inspired Editor with a Linguistic Twist</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="main.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101207153);</script>
+  <script async src="//static.getclicky.com/js"></script>
+</head>
+<body>
+<header>
+    <a href="index.html">
+        <h1 id="logo">(<b>cosine</b><span style="padding: 0 0.25em">.</span><span style="color:black;">blue</span>)</h1>
+    </a>
+</header>
+<header id="title-block-header">
+<h1 class="title">The Vim-Inspired Editor with a Linguistic Twist</h1>
+<div class="subtitle"><p>A Vim convert’s commentary on Kakoune, the selection-oriented editor focused on interactivity and incremental results—or mawww’s experiment for a better code editor.</p></div>
+<p class="author"><a href="about.html">Gregory Chamberlain</a></p>
+<p class="date">Friday 06 September, 2019</p>
+</header>
+<article>
+<h1 id="what-is-kakoune"><span class="header-section-number">1</span> What is Kakoune?</h1>
+<p><a href="http://kakoune.org/">Kakoune</a> (/kə'kuːn/) describes itself as “a code editor heavily inspired by Vim”, and like the venerable vi(1) and its successor, its internal model interprets the user’s keystrokes like utterances of a sort-of “text-editing language”, but with a certain linguistic twist (more on that later). Available—for reasons that will later become clear—only on Unix-like systems, it was written in C++ by <a href="https://github.com/mawww">Maxime Coste</a>, has a clean <a href="https://github.com/mawww/kakoune">code base</a> and runs like the wind in a terminal.</p>
+<p><em>Skip ahead 700 words to <a href="#using-kakoune">Using Kakoune</a> if you just want to get stuck in right away.</em> Come back if you get totally confused.</p>
+<p>As a long time Vim user, Kakoune quickly peaked my interest and before long I was convinced that it was the editor for me, and not just because it’s incredibly obscure. Its grammatical reshuffle and wise design principles put it above the rest for me, and I’m starting to think it’s more than just a comfy nook in which to hide from the large and looming cold hand of Emacs, the curious GNUisance (sorry) that swings periodically over my shoulder whispering “we have Org mode! And Lisp!” Maybe next year, Emacs. I really want to like you.</p>
+<p>But that’s an essay for another day.</p>
+<p>Here I endeavour to introduce the reader to Kakoune and present my thoughts on its merits and misfits in the context of a terminal-based, keyboard-driven workflow. I make frequent comparisons to Vim, and the reader would benefit from some experience with a modal editor such thereas. That said, those uninitiated in modal editors might find that Kakoune’s forgiving mechanics places it among the easier to learn.</p>
+<h1 id="do-we-really-need-another-vim-clone"><span class="header-section-number">2</span> Do we really need another Vim clone?</h1>
+<p>This is neither a fork nor clone.</p>
+<p>In an effort to provide incremental results and interactivity (words whose meaning became clear once I met the <code>s</code> key), the “selection-oriented code editor” takes a bold step away from some of the Vim interactions familiar to many of us, while remaining competitive keystroke-for-keystroke, millisecond-for-precious-millisecond.</p>
+<p>Its author cites the Unix philosophy as one of Kakoune’s virtues, and certainly I would agree that it trumps Vim in adherence thereto (examples of this to come); and that is not to say it lacks enough features. Indeed it has built-in wrappers around git(1), grep(1), make(1), and man(1), works with ctags, conforming linters and other things.</p>
+<figure>
+<video src="media/kak-man.webm" controls=""><a href="media/kak-man.webm"></a></video><figcaption>Screencast to demonstrate Kakoune’s <code>:man</code> command wrapper.</figcaption>
+</figure>
+<p>Vim is difficult to extend, not least because of its idiosyncratic and unreadable train wreck of a language, VimL. Kakoune, on the other hand, stand by its decision not to complect its language with flow control and whatnot, and instead relies on languages we already know through its <code>%sh{…}</code> blocks. And although Kakoune is very usable out-of-the-box, one look at the <a href="https://kakoune.org/plugins.html">plugins page</a> is enough to make any purist cave.</p>
+<h2 id="so-whats-the-twist"><span class="header-section-number">2.1</span> So what’s the twist?</h2>
+<p>Whereas vi’s keystroke language follows <strong>verb-object</strong> order, Kakoune inverts that by following <strong>object-verb</strong> order. In real terms, that means you make a selection (object) before deciding what to do (verb) with it. The object might be a character, word, WORD<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, sentence, paragraph, parenthetical, regular expression, you name it; the verb might be <strong>delete</strong>, <strong>yank</strong> (copy), <strong>change</strong>, <strong>indent</strong>, or even transformative operations like <strong>lint</strong>, <strong>format</strong>, <strong>uppercase</strong>, etc. In Kakoune, it is with this reversed grammar, this postfix notation, that you interactively sweep up a group or groups of characters before acting on them. That way if your object isn’t quite right, you can immediately correct it without having to undo and redo your verb.</p>
+<p>I like to think Kakoune’s “keystrokes as a text editing language” model, in comparison to that of vi, is what linguists would call an <em><a href="https://en.wikipedia.org/wiki/Anastrophe">anastrophe</a></em>—specifically an object-verb inversion.</p>
+<figure>
+<img src="media/barn-swallow.jpg" alt="" /><figcaption>In English, the subject-object-verb order can be seen in this anastrophic idiom, “one swallow does not a summer make”.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></figcaption>
+</figure>
+<p>To English speakers, it might seem unnatural to communicate by placing the verb last, but consider that about 45% of documented natural languages have subject-object-verb order, including Latin, Ancient Greek, Japanese and Korean.</p>
+<h2 id="isnt-that-just-vims-visual-mode"><span class="header-section-number">2.2</span> Isn’t that just Vim’s visual mode?</h2>
+<p>Well, yes, but Vim’s visual mode is a malformed afterthought in comparison, and you have to hit <code>v</code> every time you want to use it. Kakoune is visual mode done right, but not just that; it permits—nay thrives on—multiple selections (thousands if you wish but typically just a few) and provides some really neat tools to narrow them down incrementally, <a href="#narrowing">as we’ll see later</a>.</p>
+<p>This paradigm shift necessitated a revised set of key mappings, which Kakoune implements rather well if you don’t mind using the Alt key. Since uppercase motion keys tend to <em>extend</em> the selection, <code>&lt;a-w&gt;</code>, <code>&lt;a-e&gt;</code> and <code>&lt;a-b&gt;</code> are used to traverse WORDs; similarly, since <code>a</code> and <code>i</code> have jobs already, <code>&lt;a-a&gt;</code> and <code>&lt;a-i&gt;</code> are used to select ‘an object’ or ‘inner object’.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">English</th>
+<th style="text-align: left;">Vim</th>
+<th style="text-align: left;">Kakoune</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Delete word</td>
+<td style="text-align: left;"><code>dw</code></td>
+<td style="text-align: left;"><code>wd</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Delete WORD</td>
+<td style="text-align: left;"><code>dW</code></td>
+<td style="text-align: left;"><code>&lt;a-w&gt;d</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Delete inner word</td>
+<td style="text-align: left;"><code>diw</code></td>
+<td style="text-align: left;"><code>&lt;a-i&gt;wd</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Delete back four words</td>
+<td style="text-align: left;"><code>d4b</code></td>
+<td style="text-align: left;"><code>BBBBd</code> or <code>4Bd</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Change to end of word</td>
+<td style="text-align: left;"><code>ce</code></td>
+<td style="text-align: left;"><code>ec</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Yank a sentence</td>
+<td style="text-align: left;"><code>yas</code></td>
+<td style="text-align: left;"><code>&lt;a-a&gt;sy</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Change to next occurrence of <code>x</code></td>
+<td style="text-align: left;"><code>ctx</code></td>
+<td style="text-align: left;"><code>txc</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Select to next occurrence of <code>x</code></td>
+<td style="text-align: left;"><code>vtx</code></td>
+<td style="text-align: left;"><code>tx</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Indent three lines down</td>
+<td style="text-align: left;"><code>3&gt;&gt;</code></td>
+<td style="text-align: left;"><code>xXX&gt;</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Unindent within braces</td>
+<td style="text-align: left;"><code>&lt;i}</code></td>
+<td style="text-align: left;"><code>&lt;a-i&gt;}&lt;</code></td>
+</tr>
+</tbody>
+</table>
+<p>Admittedly, from the table above, my new favourite editor looks to be more complicated than Vim. Perhaps that’s true in some sense, but Kakoune’s strengths lie in its forgiving interactivity and incremental results, which are best experienced first hand.</p>
+<h1 id="using-kakoune"><span class="header-section-number">3</span> Using Kakoune</h1>
+<p>At this point, I encourage the reader to play around with Kakoune. Have fun with it! Install it with your package manager or build it from <a href="https://github.com/mawww/kakoune">source</a>. Skim over the manual page for kak(1) and open a file in the terminal like so</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="ex">kak</span> example.cc</span></code></pre></div>
+<p>Make sure your terminal emulator supports alt key combinations and isn’t overriding them.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p>Have a look through <code>:doc faq</code>, <code>:doc keys</code> (then <code>:doc keymap</code> for the cheat sheet), and <code>:doc commands</code>, experimenting as you go. That said, the built-in help system is verbose and won’t exactly hold your hand. The <a href="https://github.com/mawww/kakoune/wiki">Kakoune wiki</a> is more navigable. You can edit files and manipulate buffers with the following commands</p>
+<ul>
+<li><code>:edit &lt;filename&gt;</code></li>
+<li><code>:buffer &lt;name&gt;</code></li>
+<li><code>:buffer-next</code> and <code>:buffer-previous</code></li>
+</ul>
+<p>Use <code>:delete-buffer</code> to delete a buffer. Write to disk with <code>:w</code> and quit with <code>:q</code>. As you enter commands, you’ll see an ASCII art Clippy show up in a box with the relevant documentation.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> Commands are self-documenting, and many have a <code>-docstring</code> argument in their definition which enriches these info boxes.</p>
+<p>Depending on your terminal colours, things might be unreadable. If so, or otherwise, pick a colour scheme using the <code>:colorscheme &lt;name&gt;</code> command. Try not to spend too many of your precious Earth seconds fussing over which is best, as I did.</p>
+<p>Kakoune shares a good deal of elementary keys with Vim, which eases the learning curve for veterans thereof. Of the lowercase letters, only <code>s</code>, <code>z</code>, <code>x</code>, <code>v</code> and <code>m</code> have completely new jobs. Hitting <code>a</code>, <code>i</code>, <code>A</code>, <code>I</code>, <code>o</code>, or <code>O</code> will enter insert mode in much the same way as in vi; <code>q</code> handles macros; pressing <code>u</code> will undo (some will rejoice that it’s <code>U</code>, not <code>&lt;c-r&gt;</code>, to redo); I could go on. As you’d expect, many motion keys accept counts, as in <code>4w</code> to traverse four words.</p>
+<h2 id="motions"><span class="header-section-number">3.1</span> Motions</h2>
+<p>Get the hang of using motions (<code>h</code>, <code>j</code>, <code>k</code>, <code>l</code>, <code>w</code>, <code>e</code>, <code>b</code>, <code>f</code>, and <code>t</code> for starters) and their majuscule equivalents, holding shift to extend the selection you already have, hitting <code>;</code> to reset the selection range back to the cursor itself. Then, of course, <code>r</code>, <code>d</code> and <code>c</code> are your destructive verbs, while <code>~</code>, <code>`</code>, <code>&lt;</code> and <code>&gt;</code> are transformative; <code>i</code>, <code>a</code>, <code>o</code> and <code>O</code> respect the selection range (try it to see what I mean), as do <code>y</code> (yank/copy) and <code>p</code> (paste). Try combining some of these with the Alt key and see what happens. Try <code>&lt;a-i&gt;</code> or <code>&lt;a-a&gt;</code> and read the info box to see what you can do with them; same goes for <code>[</code> and <code>]</code>, and their shifted equivalents <code>{</code> and <code>}</code> which, predictably, extend the selection.</p>
+<p>Kakoune does away with many of the <code>g</code>-something key-stroke sequences employed by Vim. Press <code>g</code> and you’ll see the ‘goto’ menu, which shows you the handful of keys that could complete the key-stroke sequence. Familiarise yourself with some of these.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">“Go to …”</th>
+<th style="text-align: left;">Vim</th>
+<th style="text-align: left;">Kakoune</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Top of buffer</td>
+<td style="text-align: left;"><code>gg</code></td>
+<td style="text-align: left;"><code>gk</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">End of line</td>
+<td style="text-align: left;"><code>$</code></td>
+<td style="text-align: left;"><code>gl</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Beginning of line</td>
+<td style="text-align: left;"><code>0</code></td>
+<td style="text-align: left;"><code>gh</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">First non-blank character</td>
+<td style="text-align: left;"><code>^</code></td>
+<td style="text-align: left;"><code>gi</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bottom of buffer</td>
+<td style="text-align: left;"><code>G</code></td>
+<td style="text-align: left;"><code>gj</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">End of buffer</td>
+<td style="text-align: left;"><code>G$</code></td>
+<td style="text-align: left;"><code>ge</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Top of window</td>
+<td style="text-align: left;"><code>H</code></td>
+<td style="text-align: left;"><code>gt</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bottom of window</td>
+<td style="text-align: left;"><code>L</code></td>
+<td style="text-align: left;"><code>gb</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Centre of window</td>
+<td style="text-align: left;"><code>M</code></td>
+<td style="text-align: left;"><code>gc</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Last (alternate) buffer</td>
+<td style="text-align: left;"><code>&lt;c-^&gt;</code></td>
+<td style="text-align: left;"><code>ga</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Path under cursor / in selection</td>
+<td style="text-align: left;"><code>gf</code></td>
+<td style="text-align: left;"><code>gf</code></td>
+</tr>
+</tbody>
+</table>
+<p>Same goes for <code>v</code> and the ‘view’ menu, which is for adjusting your ‘view port’ into the buffer.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">“View …”</th>
+<th style="text-align: left;">Vim</th>
+<th style="text-align: left;">Kakoune</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Centre cursor vertically</td>
+<td style="text-align: left;"><code>zz</code></td>
+<td style="text-align: left;"><code>vc</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Centre cursor horizontally</td>
+<td style="text-align: left;">Nope<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></td>
+<td style="text-align: left;"><code>vm</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cursor on top</td>
+<td style="text-align: left;"><code>zt</code></td>
+<td style="text-align: left;"><code>vt</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cursor on bottom</td>
+<td style="text-align: left;"><code>zb</code></td>
+<td style="text-align: left;"><code>vt</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Scroll left</td>
+<td style="text-align: left;"><code>zh</code></td>
+<td style="text-align: left;"><code>vh</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Scroll down</td>
+<td style="text-align: left;"><code>&lt;C-e&gt;</code></td>
+<td style="text-align: left;"><code>vh</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Scroll up</td>
+<td style="text-align: left;"><code>&lt;C-y&gt;h</code></td>
+<td style="text-align: left;"><code>vh</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Scroll right</td>
+<td style="text-align: left;"><code>zl</code></td>
+<td style="text-align: left;"><code>vl</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="multiple-selections"><span class="header-section-number">3.2</span> Multiple selections</h2>
+<p>Pressing <code>x</code> selects a whole line, <code>x</code> again the next instead; or hold shift and see that <code>X</code> sweeps up multiple lines. Here’s where things get cool: sweep up a few lines with <code>X</code> or <code>&lt;a-i&gt;p</code> and then press <code>&lt;a-s&gt;</code>. That splits the selection <em>linewise</em> into multiple selections. Another way to accrue selections is using <code>C</code> or <code>&lt;a-C&gt;</code>. Play around with these yourself. If things get out of hand you can hit <code>&lt;space&gt;</code> to reset to one selection.</p>
+<h3 id="aligning-columns-interactively"><span class="header-section-number">3.2.1</span> Aligning columns interactively</h3>
+<p>This is one case where multiple selections are your best friend. You just make your selections and hit <code>&amp;</code> to align them vertically.</p>
+<figure>
+<video src="media/kak-align.webm" controls=""><a href="media/kak-align.webm"></a></video><figcaption>Screencast: Column-wise alignment of a markdown table.</figcaption>
+</figure>
+<h3 id="narrowing"><span class="header-section-number">3.2.2</span> Narrowing</h3>
+<p>Still think multiple selection are a gimmick? So did I. Until I tried some of the narrowing mechanisms. What do I mean by that? Well, let’s say you want to replace all occurrences of ‘that’ with ‘this’ inside a particular paragraph. With your cursor situated somewhere within it, you’d press</p>
+<pre><code>&lt;a-i&gt;p</code></pre>
+<p>to select the whole paragraph, then (and this is the good bit)</p>
+<pre><code>sthat&lt;ret&gt;</code></pre>
+<p>to select each occurrence of ‘that’.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> Now you have multiple selections. Finally you’d type</p>
+<pre><code>cthis&lt;esc&gt;</code></pre>
+<p>to change each into ‘this’.</p>
+<figure>
+<video src="media/kak-sthatcthis.webm" controls=""><a href="media/kak-sthatcthis.webm"></a></video><figcaption>Screencast: Replacing instances of a pattern in a paragraph.</figcaption>
+</figure>
+<p>To achieve the same in Vim you’d need to specify the line range of the paragraph in an ex command (perhaps with the help of visual mode, i.e. <code>vip</code>), and provide the ‘g’ flag. In Kakoune, everything is achieved with the keyboard-based “text-editing language” and as a result is more interactive in that it provides incremental results so that you can make corrections on the fly.</p>
+<p>You <em>can</em> enter a regular expression (see <code>:doc regex</code>) into the <code>s</code> command, but often simple key-stroke-based interactions thereafter can achieve the same effect while being easier to come up with and adjust as you go. As a contrived example, imagine trying to replace the word that comes immediately <em>after</em> every occurrence of a pattern.</p>
+<p>A commonly used technique is to press <code>%</code> which selects the entire buffer. Then you can hit <code>s</code> to select occurrences of some pattern throughout the file. The information in the bottom right keeps count of how many selections you have.</p>
+<p>The <code>%&lt;a-s&gt;</code> combo is useful for operating linewise on entire files. For example,</p>
+<pre><code>%s&lt;a-s&gt;&lt;a-k&gt;include&lt;ret&gt;</code></pre>
+<p>will select all lines that contain the word ‘include’; or, using Alt+Shift+K, we can do</p>
+<pre><code>%s&lt;a-s&gt;&lt;a-K&gt;:$&lt;ret&gt;</code></pre>
+<p>to select all lines that don’t end with a colon. We could then do</p>
+<pre><code>&lt;a-k&gt;^def&lt;ret&gt;</code></pre>
+<p>to narrow down further to only those that begin with ‘def’. Follow that up with an <code>S</code> key like so:</p>
+<pre><code>S\.&lt;ret&gt;</code></pre>
+<p>will split each selection at every period. As you can see, the narrowing tools are immensely powerful and the possibilities endless. And if you’re still not satisfied, there’s the <code>$</code> key which filters your selections by piping each one through any program you like and keeping only those for which the program exists successfully—meaning you could always write a little shell script to be the predicate of that filter.</p>
+<h2 id="changes-through-external-programs"><span class="header-section-number">3.3</span> Changes through external programs</h2>
+<p>Don’t get too excited about <code>$</code> before you’ve met <code>|</code>. This key is your program-yielding text-processing glue. The idea is that you make your selection(s) in Kakoune, type something of the form</p>
+<pre><code>|program args ...&lt;ret&gt;</code></pre>
+<p>and watch the magic happen. For each selection, Kakoune feeds it as standard input to the program, and replaces it with the standard output.</p>
+<h3 id="word-count-and-formatting"><span class="header-section-number">3.3.1</span> Word count and formatting</h3>
+<p>Starting with a simple example, you could select the entire buffer with <code>%</code>, then run it through WC(1) to get a word count of your prose:</p>
+<pre><code>%|wc -w&lt;ret&gt;</code></pre>
+<p>Or pipe it first through the appropriate <a href="https://pandoc.org/">pandoc(1)</a> command to convert it to plain text, thereby eliding markup from your word count:</p>
+<pre><code>%|pandoc -t plain|wc -w&lt;ret&gt;</code></pre>
+<p>Or you could select a paragraph and pipe that through to fmt(1) or par(1), which are programs that nicely reflow paragraphs of text from standard input. This is why Kakoune seems to lack important features such as text reflowing; instead it makes it easy to delegate this sort of processing to other programs, thereby adhering a little closer to the Unix philosophy.</p>
+<h3 id="evaluating-code-within-the-buffer"><span class="header-section-number">3.3.2</span> Evaluating code within the buffer</h3>
+<p>If your buffer contained a Python expression, say</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>factorial <span class="op">=</span> <span class="kw">lambda</span> n: <span class="dv">1</span> <span class="cf">if</span> n<span class="op">&lt;</span><span class="dv">1</span> <span class="cf">else</span> n<span class="op">*</span>factorial(n<span class="dv">-1</span>)</span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="bu">print</span>(factorial(<span class="dv">13</span>) <span class="op">+</span> factorial(<span class="dv">16</span>))</span></code></pre></div>
+<p>then you could select those lines and pipe it into python(1) by typing <code>|python&lt;ret&gt;</code>, leaving you with <code>20929016908800</code> as the selection.</p>
+<figure>
+<video src="./media/kak-python.webm" controls=""><a href="./media/kak-python.webm"></a></video><figcaption>Screencast: Evaluating a Python expression in Kakoune.</figcaption>
+</figure>
+<p>The <code>!</code> key does the same but without piping anything through to the program: it simply copies the output of the program into the buffer. For instance, <code>!ls&lt;ret&gt;</code> will add a list of the contents of the current directory before the selection. <code>!cat example.sh&lt;ret&gt;</code> will add the lines of the file <code>example.sh</code> before the selection.</p>
+<h3 id="inserting-emoji"><span class="header-section-number">3.3.3</span> Inserting Emoji</h3>
+<p>Use <code>|</code> to conveniently pipe words like ‘smile’ 😄 and ‘house’ 🏠 to a program that converts stdin to emoji, like this one liner:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1"></a><span class="co">#!/bin/sh</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="fu">xargs</span> -r printf <span class="st">&#39;:%s:&#39;</span> <span class="kw">|</span> <span class="ex">pandoc</span> -f gfm -t plain</span></code></pre></div>
+<p>Maybe Pandoc is overkill here, but you get the point.</p>
+<h3 id="using-the-system-clipboard"><span class="header-section-number">3.3.4</span> Using the system clipboard</h3>
+<p>Piping to and from xsel(1) or xclip(1) is your interface to the X clipboard. Now you can copy those snippets from Stack Overflow and feed your cargo cult programming habit.</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: left;">Primary selection</th>
+<th style="text-align: left;">Clipboard</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Copy</strong></td>
+<td style="text-align: left;"><code>$xsel -i</code></td>
+<td style="text-align: left;"><code>$xsel -bi</code></td>
+</tr>
+<tr class="even">
+<td><strong>Cut</strong></td>
+<td style="text-align: left;"><code>|xsel -i</code></td>
+<td style="text-align: left;"><code>|xsel -bi</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Paste</strong></td>
+<td style="text-align: left;"><code>!xsel</code></td>
+<td style="text-align: left;"><code>!xsel -b</code></td>
+</tr>
+</tbody>
+</table>
+<h1 id="user-configuration"><span class="header-section-number">4</span> User configuration</h1>
+<h2 id="mapping-keys"><span class="header-section-number">4.1</span> Mapping keys</h2>
+<p>Of course, you can create key mappings for these things to your heart’s content. Nice thing about Kakoune is it has a proper way of keeping <em>user</em>-specific mappings separate from <em>global</em> mappings, thanks to the scope parameter of <code>:map</code>. By default, the comma key is the prefix to all user mappings.</p>
+<p>As an example, here is a mapping I use all the time:</p>
+<pre><code>map global user m &#39;: format;w;make&lt;ret&gt;ga: echo Making&lt;ret&gt;&#39; -docstring &#39;Format and write the file, then call make(1)&#39;</code></pre>
+<p>It’s scoped globally because I want this to work everywhere. Now I just hit <code>,m</code> to</p>
+<ul>
+<li>fix my sloppy formatting (<code>: format</code>)
+<ul>
+<li>the space after the colon prevents this command from being put into Kakoune’s prompt history</li>
+</ul></li>
+<li>write the file (<code>;w</code>)
+<ul>
+<li>the semicolon separates Kakoune commands</li>
+</ul></li>
+<li>run make(1)
+<ul>
+<li><code>;make&lt;ret&gt;</code> calls Kakoune’s <code>:make</code> wrapper, which opens a new buffer</li>
+<li><code>ga</code> goes back to the buffer I was working on</li>
+<li><code>: echo Making&lt;ret&gt;</code> is just for visual feedback.</li>
+</ul></li>
+</ul>
+<p>Have a look at <code>:doc mapping</code> for the full story. Note that <code>:map</code> is one of those commands that can take a <code>-docstring</code> argument, which become part of the self-documenting hints that you see throughout the UI.</p>
+<p>Classic line-editing shortcuts like <code>^W</code> and <code>^U</code> that predate even Unix are missing from Kakoune’s insert mode; “those shortcuts do not fit the paradigm that Kakoune implements” says the <code>:doc faq</code>, but for me this is one case where practicality beats purity:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb16-1"><a href="#cb16-1"></a>map global insert &lt;c-w&gt; <span class="st">&#39;&lt;a-;&gt;b&lt;a-;&gt;d&#39;</span> -docstring <span class="st">&#39;Delete word backwards&#39;</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a>map global insert &lt;c-u&gt; <span class="st">&#39;&lt;a-;&gt;h&lt;a-;&gt;&lt;a-h&gt;&lt;a-;&gt;d&#39;</span> -docstring <span class="st">&#39;Delete line backwards&#39;</span></span></code></pre></div>
+<h2 id="persistent-configuration"><span class="header-section-number">4.2</span> Persistent configuration</h2>
+<p>Let’s say you’ve mapped a few keys and set a few options. How do you make them persistent between kak(1) sessions?</p>
+<p>Create the file <code>$HOME/.config/kak/kakrc</code> and place your mapping and options in there. This is the analogue to one’s <code>$HOME/.vimrc</code>.</p>
+<p>When you start kak(1), before sourcing your <code>kakrc</code> it first sources all <code>*.kak*</code> files within your <code>$HOME/.config/kak/autoload/</code> directory. That means you can put anything—even Git repositories in there (i.e. plugins)—and all non-Kakoune files don’t cause Kakoune any grief.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<p>Once your <code>autoload</code> directory exists, however, Kakoune decides not to source the system run-time files under <code>/usr/share/kak/autoload/</code>, so you’ll want to link that system directory symbolically into yours:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1"></a>    <span class="fu">mkdir</span> <span class="va">$HOME</span>/.config/kak/autoload/</span>
+<span id="cb17-2"><a href="#cb17-2"></a>    <span class="fu">ln</span> -s /usr/share/kak/autoload/ <span class="va">$HOME</span>/.config/kak/autoload/</span></code></pre></div>
+<h2 id="formatting-the-entire-buffer"><span class="header-section-number">4.3</span> Formatting the entire buffer</h2>
+<p>The <code>:format</code> command is provided as a shortcut for <code>%|</code> followed by your formatter program, be it fmt(1), par(1) or something else like a style linter. You just need to set the <code>formatcmd</code> option.</p>
+<pre><code>set window formatcmd &#39;par&#39;</code></pre>
+<p>The <code>window</code> argument specifies the <em>scope</em> of this particular assignment. See <code>:doc options set-option</code> and <code>:doc scope</code> for more explanation.</p>
+<p>Also look at <code>autowrap_fmtcmd</code> and <code>autowrap-enable</code> which wrap lines for you while typing, so it doesn’t feel like you’ve reverted to using Notepad.</p>
+<h3 id="linting-markup-on-the-fly"><span class="header-section-number">4.3.1</span> Linting markup on the fly</h3>
+<p>If you’re writing in a lightweight markup language, be it Markdown, ReStructuredText, AsciiDoc, or what have you, it’s nice to have a program go through your writing and fix little formatting mistakes here and there, remove trailing spaces and unnecessary line breaks and so forth. Kakoune’s <code>:format</code> command lets you do this really smoothly without leaving the editor. Just set <code>formatcmd</code> to some command that calls your style linter with any appropriate arguments.</p>
+<p>Pandoc can function as a style linter by telling it that the input and output are of the same kind. ReStructuredText for example,</p>
+<pre><code>set buffer formatcmd &#39;pandoc -f rst -t rst --reference-links&#39;</code></pre>
+<p>where passing <code>--reference-links</code> is optional of course, but means you can write an inline link and have it converted automatically to a reference at the bottom of the file, which takes care of the otherwise laborious task of managing references, their names and order by hand.</p>
+<p>This could become slow for particularly large documents, and some style linting programs will be slower than others. In this document, I’m using Pandoc to reformat around 600 lines of text and it takes a fraction of a second.</p>
+<h2 id="hooks"><span class="header-section-number">4.4</span> Hooks</h2>
+<p>You can use hooks to trigger a command when some event happens, such as opening a new file, resizing the window, pressing a key in insert mode, or the user being idle for some length of time. These also have an associated scope. Read <code>:doc hooks</code> to see how they work.</p>
+<h3 id="filetype-specific-run-commands"><span class="header-section-number">4.4.1</span> Filetype-specific run commands</h3>
+<p>Now, what if you want to set an option differently depending on the kind of file you’re editing? You can do that using the WinSetOption hook:</p>
+<pre><code>hook &lt;scope&gt; WinSetOption &#39;filetype=(ruby)&#39; &lt;command&gt;</code></pre>
+<p>The command can be any list of commands. So to set a few options that would be something like this:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb21-1"><a href="#cb21-1"></a>hook &lt;scope&gt; <span class="dt">WinSetOption</span> <span class="st">&#39;filetype=(css)&#39;</span> %{</span>
+<span id="cb21-2"><a href="#cb21-2"></a>    set buffer indentwidth <span class="dv">2</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a>    set buffer tabstop <span class="dv">2</span></span>
+<span id="cb21-4"><a href="#cb21-4"></a>    set buffer scrolloff <span class="dv">5</span>:<span class="dv">0</span></span>
+<span id="cb21-5"><a href="#cb21-5"></a>}</span></code></pre></div>
+<p>This can get repetitive for lots of different filetypes, so we can factor this out using the function <code>filetype-hook</code> as defined below:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">def</span> filetype-hook -params <span class="dv">2</span> %{</span>
+<span id="cb22-2"><a href="#cb22-2"></a>    hook global <span class="dt">WinSetOption</span> <span class="st">&#39;filetype=(%arg{1})&#39;</span> %arg(<span class="dv">2</span>)</span>
+<span id="cb22-3"><a href="#cb22-3"></a>}</span>
+<span id="cb22-4"><a href="#cb22-4"></a></span>
+<span id="cb22-5"><a href="#cb22-5"></a>filetype-hook css <span class="ot">%{</span></span>
+<span id="cb22-6"><a href="#cb22-6"></a><span class="st">    set window indentwidth 2</span></span>
+<span id="cb22-7"><a href="#cb22-7"></a><span class="st">    set window tabstop 2</span></span>
+<span id="cb22-8"><a href="#cb22-8"></a><span class="st">    set window scrolloff 5:0</span></span>
+<span id="cb22-9"><a href="#cb22-9"></a><span class="st">    set window formatcmd &#39;prettier --parser=scss&#39;</span></span>
+<span id="cb22-10"><a href="#cb22-10"></a><span class="ot">}</span></span>
+<span id="cb22-11"><a href="#cb22-11"></a></span>
+<span id="cb22-12"><a href="#cb22-12"></a>filetype-hook ruby|python <span class="ot">%{</span></span>
+<span id="cb22-13"><a href="#cb22-13"></a><span class="st">    set window indentwidth 4</span></span>
+<span id="cb22-14"><a href="#cb22-14"></a><span class="st">    set window tabstop 4</span></span>
+<span id="cb22-15"><a href="#cb22-15"></a><span class="st">    set window matching_pairs ( ) [ ] { }</span></span>
+<span id="cb22-16"><a href="#cb22-16"></a><span class="ot">}</span></span></code></pre></div>
+<h1 id="should-you-use-kakoune"><span class="header-section-number">5</span> Should you use Kakoune?</h1>
+<p>There’s loads more to Kakoune, not least of which are its <a href="https://kakoune.org/plugins.html">plugins</a>. But the potential for it to be configured exactly how you like is huge, and it’s very easy to do so. I haven’t even talked about <code>evaluate-commands</code> and <code>%sh{…}</code> blocks here.</p>
+<p>Kakoune is so smooth in the way it uses existing programs; take the clipboard for example: why should Kakoune bother with implementing a feature specific to and dependent on X, when it can very easily be done in run-time configuration by piping to and from a program such as xsel? This is a taste of the Unix philosophy, and it’s what makes Kakoune so wonderfully extensible.</p>
+<p>But due to the difference in key mappings, existing Vim users will become frustrated in the transition, and Vim veterans will be leaving their beloved configuration behind, putting them back to square one. I can see many Vim users dismissing Kakoune as an interesting idea, but not worth the effort to learn. I mean, even <a href="https://github.com/mawww">its creator</a> describes it as an “experiment for a better code editor”.</p>
+<p>I have found that learning to use Kakoune’s key stroke language has messed with my muscle memory somewhat when it comes to Vim and crucially Readline<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>, although not as much as I’d anticipated.</p>
+<p>This write-up has been mostly positive, but my experience with Kakoune has not been without issues:</p>
+<ul>
+<li>I’m having to use alt keys all the time now, which can be a bit fiddley to say the least.</li>
+<li>There’s just no way to have the cursor turn into a pipe shape while in insert mode, which is a shame because many people rely on that to indicate whether they’re in insert mode.</li>
+<li>Insert mode auto wrapping, which uses fold(1), will occasionally create a new line in the middle of a word I’m writing.</li>
+<li>Some people have reported slow startup times; for me it’s a small fraction of a second which is tolerable but doesn’t have the same <em>instant</em> feel as Vim.</li>
+<li>I had to implement essential line-editing chords like <code>&lt;c-w&gt;</code> myself in configuration. The needlessly puristic reason given for their absence does not convince me.</li>
+</ul>
+<h1 id="further-reading"><span class="header-section-number">6</span> Further reading</h1>
+<ul>
+<li><a href="http://kakoune.org/">kakoune.org</a></li>
+<li>the <a href="https://github.com/mawww/kakoune/blob/master/README.asciidoc">README.asciidoc</a></li>
+<li>the <a href="https://github.com/mawww/kakoune/wiki">Kakoune wiki</a></li>
+<li><a href="https://medium.com/@Jernfrost/kakoune-the-text-editor-i-didnt-know-i-needed-23d5f1d6ad97#setting-up-kakoune-on-mac"><em>Kakoune, the Text Editor I Didn’t Know I Needed</em> — Erik Engheim</a></li>
+<li><a href="https://brhfl.com/categories/writing/#fn:f3880b8ddd47f69dc92486213c4d5eb2:1"><em>Kakoune</em> — Bri Hefele</a></li>
+</ul>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>It is by convention that the uppercase ‘WORD’ refers to whitespace-separated groups of characters, whereas the lowercase ‘word’ refers to consecutive runs of alphanumeric characters.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>I suppose, strictly speaking, SOV order would be “one swallow a summer does not make”, but I liked the barn swallow photo too much to change it. (Credit: <a href="https://commons.wikimedia.org/wiki/User:Cajay">JJ Cadiz</a>, <a href="https://creativecommons.org/licenses/by/3.0/deed.en">CC BY 3.0</a>).</p>
+<p>More examples of object-verb inversion in English:</p>
+<ul>
+<li><p>“With this ring, <strong>I thee wed</strong>”</p></li>
+<li><p>“Till <strong>death us do part</strong>”</p></li>
+<li><p>“<strong>Deep into that darkness peering</strong>, long I stood there wondering, fearing.”—Edgar Allan Poe, <em>the Raven</em>.</p></li>
+</ul>
+<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></li>
+<li id="fn3" role="doc-endnote"><p>MacOS users might find a fix <a href="https://medium.com/@Jernfrost/kakoune-the-text-editor-i-didnt-know-i-needed-23d5f1d6ad97#setting-up-kakoune-on-mac">here</a>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>If Clippy is bringing back unpleasant memories, you can change or remove the ASCII art by putting this in your user configuration:</p>
+<pre><code>set global ui_options ncurses_assistant=VALUE</code></pre>
+<p>where <code>VALUE</code> is <code>clippy</code>, <code>cat</code>, <code>dilbert</code>, <code>none</code>, or <code>off</code>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>The closest approximations I can find are <code>zH</code> and <code>zL</code> to scroll half a screen width horizontally, alternatively there’s <code>set sidescrolloff=999</code>. Anyway who really needs to centre the view on their cursor <em>horizontally</em>? It seems like it was added to Kakoune just for completeness. Vim beats Kakoune on the scrolling front in other ways like synchronous scrolling, for instance.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p><code>&lt;ret&gt;</code> refers to the Enter or Return key. See <code>:doc mapping</code> for more key names like this.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7" role="doc-endnote"><p>See kak(1) (<code>man kak</code>) for details on how exactly Kakoune’s run-time files are sourced.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8" role="doc-endnote"><p>GNU readline(1) is the line-editing library used by countless terminal-based programs. I now use Emacs bindings in Readline, because they differ enough from Kakoune that I don’t get confused.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</article>
+<footer>
+    <a href="about.html" style="float:right">About</a>
+    Copyright © 2019 Gregory L. Chamberlain
+</footer>
+</body>
+</html>
