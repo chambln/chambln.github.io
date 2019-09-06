@@ -31,11 +31,11 @@ all: $(obj_pages) main.css
 index.html: src/index.md archive.html
 	pandoc $< -so $@ \
 		--verbose \
-		--template=template/page \
-		-H template/clicky-head.html \
+		--template=src/template/page \
+		-H src/include/clicky-head.html \
+		-B src/include/header.html \
 		-A archive.html \
-		-B src/header.html \
-		-A src/footer.html \
+		-A src/include/footer.html \
 		--css=main.css
 
 archive_li := $(src_posts:src/posts/%.md=tmp/%.html)
@@ -43,33 +43,33 @@ archive_li := $(src_posts:src/posts/%.md=tmp/%.html)
 archive.html: $(archive_li) $(obj_posts)
 	cat $(archive_li) | pandoc -o archive.html \
 		--metadata pagetitle="Archive" \
-		--template=template/archive
+		--template=src/template/archive
 
 tmp/%.html: src/posts/%.md
 	@mkdir -pv tmp/
 	pandoc $< -o $@ \
 		--verbose \
-		--template=template/archive-li \
+		--template=src/template/archive-li \
 		--variable=filename:$(notdir $@)
 
 %.html: src/posts/%.md
 	pandoc $< -so $@ \
 		--verbose \
-		--template=template/post \
+		--template=src/template/post \
+		-H src/include/clicky-head.html \
+		-B src/include/header.html \
+		-A src/include/footer.html \
 		--css=main.css \
-		-H template/clicky-head.html \
-		-B src/header.html \
-		-A src/footer.html \
 		--number-sections
 
 %.html: src/%.md
 	pandoc $< -so $@ \
 		--verbose \
-		--template=template/page \
-		--css=main.css \
-		-H template/clicky-head.html \
-		-B src/header.html \
-		-A src/footer.html
+		--template=src/template/page \
+		-H src/include/clicky-head.html \
+		-B src/include/header.html \
+		-A src/include/footer.html \
+		--css=main.css
 %.css: src/%.scss
 	sassc $< -t compressed > $@
 
