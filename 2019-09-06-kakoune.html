@@ -351,7 +351,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>|program args ...&lt;ret&gt;</code></pre>
 <p>and watch the magic happen. For each selection, Kakoune feeds it as standard input to the program, and replaces it with the standard output.</p>
 <h3 id="word-count-and-formatting"><span class="header-section-number">3.3.1</span> Word count and formatting</h3>
-<p>Starting with a simple example, you could select the entire buffer with <code>%</code>, then run it through WC(1) to get a word count of your prose:</p>
+<p>Starting with a simple example, you could select the entire buffer with <code>%</code>, then run it through wc(1) to get a word count of your prose:</p>
 <pre><code>%|wc -w&lt;ret&gt;</code></pre>
 <p>Or pipe it first through the appropriate <a href="https://pandoc.org/">pandoc(1)</a> command to convert it to plain text, thereby eliding markup from your word count:</p>
 <pre><code>%|pandoc -t plain|wc -w&lt;ret&gt;</code></pre>
