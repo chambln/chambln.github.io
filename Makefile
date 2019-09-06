@@ -35,6 +35,7 @@ index.html: src/index.md archive.html
 		-H template/clicky-head.html \
 		-A archive.html \
 		-B src/header.html \
+		-A src/footer.html \
 		--css=main.css
 
 archive_li := $(src_posts:src/posts/%.md=tmp/%.html)
@@ -57,8 +58,8 @@ tmp/%.html: src/posts/%.md
 		--template=template/post \
 		--css=main.css \
 		-H template/clicky-head.html \
-		-A src/footer.html \
 		-B src/header.html \
+		-A src/footer.html \
 		--number-sections
 
 %.html: src/%.md
@@ -67,7 +68,8 @@ tmp/%.html: src/posts/%.md
 		--template=template/page \
 		--css=main.css \
 		-H template/clicky-head.html \
-		-B src/header.html
+		-B src/header.html \
+		-A src/footer.html
 %.css: src/%.scss
 	sassc $< -t compressed > $@
 
