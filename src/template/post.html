@@ -48,6 +48,9 @@ $endfor$
 $if(title)$
 <header id="title-block-header">
 <h1 class="title">$title$</h1>
+$if(cover-image)$
+<figure><img class="cover-image" src="$cover-image$" alt="Cover image" /></figure>
+$endif$
 $if(subtitle)$
 <div class="subtitle">$subtitle$</div>
 $endif$

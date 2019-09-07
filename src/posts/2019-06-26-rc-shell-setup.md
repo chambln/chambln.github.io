@@ -1,5 +1,6 @@
 ---
 author: Gregory Chamberlain
+cover-image: 'media/glenda.jpg'
 date: 'Wednesday 26 June, 2019'
 lang: 'en-GB'
 subtitle: |
@@ -52,7 +53,8 @@ Install the *rc* shell
 I recommend installing [Byron Rakitzis' reimplementation of *rc*], which
 provides such nice features as **line editing** and **tab completions**.
 
-## Compile from source
+Compile from source
+-------------------
 
 Clone the GitHub repository and run the bootstrap script:
 
