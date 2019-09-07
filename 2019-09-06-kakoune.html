@@ -107,7 +107,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In an effort to provide incremental results and interactivity (words whose meaning became clear once I met the <code>s</code> key), the “selection-oriented code editor” takes a bold step away from some of the Vim interactions familiar to many of us, while remaining competitive keystroke-for-keystroke, millisecond-for-precious-millisecond.</p>
 <p>Its author cites the Unix philosophy as one of Kakoune’s virtues, and certainly I would agree that it trumps Vim in adherence thereto (examples of this to come); and that is not to say it lacks enough features. Indeed it has built-in wrappers around git(1), grep(1), make(1), and man(1), works with ctags, conforming linters and other things.</p>
 <figure>
-<video src="media/kak-man.webm" controls=""><a href="media/kak-man.webm"></a></video><figcaption>Screencast to demonstrate Kakoune’s <code>:man</code> command wrapper.</figcaption>
+<script id="asciicast-0MLTST9LQYdJ6JNQvmSsaBV7U"
+           src="https://asciinema.org/a/0MLTST9LQYdJ6JNQvmSsaBV7U.js"
+           async></script>
 </figure>
 <p>Vim is difficult to extend, not least because of its idiosyncratic and unreadable train wreck of a language, VimL. Kakoune, on the other hand, stand by its decision not to complect its language with flow control and whatnot, and instead relies on languages we already know through its <code>%sh{…}</code> blocks. And although Kakoune is very usable out-of-the-box, one look at the <a href="https://kakoune.org/plugins.html">plugins page</a> is enough to make any purist cave.</p>
 <h2 id="so-whats-the-twist"><span class="header-section-number">2.1</span> So what’s the twist?</h2>
@@ -321,7 +323,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 id="aligning-columns-interactively"><span class="header-section-number">3.2.1</span> Aligning columns interactively</h3>
 <p>This is one case where multiple selections are your best friend. You just make your selections and hit <code>&amp;</code> to align them vertically.</p>
 <figure>
-<video src="media/kak-align.webm" controls=""><a href="media/kak-align.webm"></a></video><figcaption>Screencast: Column-wise alignment of a markdown table.</figcaption>
+<script id="asciicast-EiuIMgYNAPSdGYzdP2bsmt0ZF"
+           src="https://asciinema.org/a/EiuIMgYNAPSdGYzdP2bsmt0ZF.js"
+           async></script>
 </figure>
 <h3 id="narrowing"><span class="header-section-number">3.2.2</span> Narrowing</h3>
 <p>Still think multiple selection are a gimmick? So did I. Until I tried some of the narrowing mechanisms. What do I mean by that? Well, let’s say you want to replace all occurrences of ‘that’ with ‘this’ inside a particular paragraph. With your cursor situated somewhere within it, you’d press</p>
@@ -332,7 +336,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>cthis&lt;esc&gt;</code></pre>
 <p>to change each into ‘this’.</p>
 <figure>
-<video src="media/kak-sthatcthis.webm" controls=""><a href="media/kak-sthatcthis.webm"></a></video><figcaption>Screencast: Replacing instances of a pattern in a paragraph.</figcaption>
+<script id="asciicast-r0mCpLIWpF2LiFg5d0qlWPlTb"
+           src="https://asciinema.org/a/r0mCpLIWpF2LiFg5d0qlWPlTb.js"
+           async></script>
 </figure>
 <p>To achieve the same in Vim you’d need to specify the line range of the paragraph in an ex command (perhaps with the help of visual mode, i.e. <code>vip</code>), and provide the ‘g’ flag. In Kakoune, everything is achieved with the keyboard-based “text-editing language” and as a result is more interactive in that it provides incremental results so that you can make corrections on the fly.</p>
 <p>You <em>can</em> enter a regular expression (see <code>:doc regex</code>) into the <code>s</code> command, but often simple key-stroke-based interactions thereafter can achieve the same effect while being easier to come up with and adjust as you go. As a contrived example, imagine trying to replace the word that comes immediately <em>after</em> every occurrence of a pattern.</p>
@@ -362,7 +368,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb13-2"><a href="#cb13-2"></a><span class="bu">print</span>(factorial(<span class="dv">13</span>) <span class="op">+</span> factorial(<span class="dv">16</span>))</span></code></pre></div>
 <p>then you could select those lines and pipe it into python(1) by typing <code>|python&lt;ret&gt;</code>, leaving you with <code>20929016908800</code> as the selection.</p>
 <figure>
-<video src="./media/kak-python.webm" controls=""><a href="./media/kak-python.webm"></a></video><figcaption>Screencast: Evaluating a Python expression in Kakoune.</figcaption>
+<script id="asciicast-0BHzz6J9fTVDKhfhKeRsLgG43"
+           src="https://asciinema.org/a/0BHzz6J9fTVDKhfhKeRsLgG43.js"
+           async></script>
 </figure>
 <p>The <code>!</code> key does the same but without piping anything through to the program: it simply copies the output of the program into the buffer. For instance, <code>!ls&lt;ret&gt;</code> will add a list of the contents of the current directory before the selection. <code>!cat example.sh&lt;ret&gt;</code> will add the lines of the file <code>example.sh</code> before the selection.</p>
 <h3 id="inserting-emoji"><span class="header-section-number">3.3.3</span> Inserting Emoji</h3>
@@ -442,34 +450,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>set buffer formatcmd &#39;pandoc -f rst -t rst --reference-links&#39;</code></pre>
 <p>where passing <code>--reference-links</code> is optional of course, but means you can write an inline link and have it converted automatically to a reference at the bottom of the file, which takes care of the otherwise laborious task of managing references, their names and order by hand.</p>
 <p>This could become slow for particularly large documents, and some style linting programs will be slower than others. In this document, I’m using Pandoc to reformat around 600 lines of text and it takes a fraction of a second.</p>
+<figure>
+<script id="asciicast-9zGnkfE066JPBUKXQ3OzLnnxb"
+          src="https://asciinema.org/a/9zGnkfE066JPBUKXQ3OzLnnxb.js"
+          async></script>
+</figure>
+<p>In the screencast above you can see me fixing a poorly written stylesheet with this <code>formatcmd</code>:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb20-1"><a href="#cb20-1"></a>set-option window formatcmd <span class="st">&#39;prettier --parser=scss&#39;</span></span></code></pre></div>
 <h2 id="hooks"><span class="header-section-number">4.4</span> Hooks</h2>
 <p>You can use hooks to trigger a command when some event happens, such as opening a new file, resizing the window, pressing a key in insert mode, or the user being idle for some length of time. These also have an associated scope. Read <code>:doc hooks</code> to see how they work.</p>
 <h3 id="filetype-specific-run-commands"><span class="header-section-number">4.4.1</span> Filetype-specific run commands</h3>
 <p>Now, what if you want to set an option differently depending on the kind of file you’re editing? You can do that using the WinSetOption hook:</p>
 <pre><code>hook &lt;scope&gt; WinSetOption &#39;filetype=(ruby)&#39; &lt;command&gt;</code></pre>
 <p>The command can be any list of commands. So to set a few options that would be something like this:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb21-1"><a href="#cb21-1"></a>hook &lt;scope&gt; <span class="dt">WinSetOption</span> <span class="st">&#39;filetype=(css)&#39;</span> %{</span>
-<span id="cb21-2"><a href="#cb21-2"></a>    set buffer indentwidth <span class="dv">2</span></span>
-<span id="cb21-3"><a href="#cb21-3"></a>    set buffer tabstop <span class="dv">2</span></span>
-<span id="cb21-4"><a href="#cb21-4"></a>    set buffer scrolloff <span class="dv">5</span>:<span class="dv">0</span></span>
-<span id="cb21-5"><a href="#cb21-5"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb22-1"><a href="#cb22-1"></a>hook &lt;scope&gt; <span class="dt">WinSetOption</span> <span class="st">&#39;filetype=(css)&#39;</span> %{</span>
+<span id="cb22-2"><a href="#cb22-2"></a>    set buffer indentwidth <span class="dv">2</span></span>
+<span id="cb22-3"><a href="#cb22-3"></a>    set buffer tabstop <span class="dv">2</span></span>
+<span id="cb22-4"><a href="#cb22-4"></a>    set buffer scrolloff <span class="dv">5</span>:<span class="dv">0</span></span>
+<span id="cb22-5"><a href="#cb22-5"></a>}</span></code></pre></div>
 <p>This can get repetitive for lots of different filetypes, so we can factor this out using the function <code>filetype-hook</code> as defined below:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">def</span> filetype-hook -params <span class="dv">2</span> %{</span>
-<span id="cb22-2"><a href="#cb22-2"></a>    hook global <span class="dt">WinSetOption</span> <span class="st">&#39;filetype=(%arg{1})&#39;</span> %arg(<span class="dv">2</span>)</span>
-<span id="cb22-3"><a href="#cb22-3"></a>}</span>
-<span id="cb22-4"><a href="#cb22-4"></a></span>
-<span id="cb22-5"><a href="#cb22-5"></a>filetype-hook css <span class="ot">%{</span></span>
-<span id="cb22-6"><a href="#cb22-6"></a><span class="st">    set window indentwidth 2</span></span>
-<span id="cb22-7"><a href="#cb22-7"></a><span class="st">    set window tabstop 2</span></span>
-<span id="cb22-8"><a href="#cb22-8"></a><span class="st">    set window scrolloff 5:0</span></span>
-<span id="cb22-9"><a href="#cb22-9"></a><span class="st">    set window formatcmd &#39;prettier --parser=scss&#39;</span></span>
-<span id="cb22-10"><a href="#cb22-10"></a><span class="ot">}</span></span>
-<span id="cb22-11"><a href="#cb22-11"></a></span>
-<span id="cb22-12"><a href="#cb22-12"></a>filetype-hook ruby|python <span class="ot">%{</span></span>
-<span id="cb22-13"><a href="#cb22-13"></a><span class="st">    set window indentwidth 4</span></span>
-<span id="cb22-14"><a href="#cb22-14"></a><span class="st">    set window tabstop 4</span></span>
-<span id="cb22-15"><a href="#cb22-15"></a><span class="st">    set window matching_pairs ( ) [ ] { }</span></span>
-<span id="cb22-16"><a href="#cb22-16"></a><span class="ot">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw">def</span> filetype-hook -params <span class="dv">2</span> %{</span>
+<span id="cb23-2"><a href="#cb23-2"></a>    hook global <span class="dt">WinSetOption</span> <span class="st">&#39;filetype=(%arg{1})&#39;</span> %arg(<span class="dv">2</span>)</span>
+<span id="cb23-3"><a href="#cb23-3"></a>}</span>
+<span id="cb23-4"><a href="#cb23-4"></a></span>
+<span id="cb23-5"><a href="#cb23-5"></a>filetype-hook css <span class="ot">%{</span></span>
+<span id="cb23-6"><a href="#cb23-6"></a><span class="st">    set window indentwidth 2</span></span>
+<span id="cb23-7"><a href="#cb23-7"></a><span class="st">    set window tabstop 2</span></span>
+<span id="cb23-8"><a href="#cb23-8"></a><span class="st">    set window scrolloff 5:0</span></span>
+<span id="cb23-9"><a href="#cb23-9"></a><span class="st">    set window formatcmd &#39;prettier --parser=scss&#39;</span></span>
+<span id="cb23-10"><a href="#cb23-10"></a><span class="ot">}</span></span>
+<span id="cb23-11"><a href="#cb23-11"></a></span>
+<span id="cb23-12"><a href="#cb23-12"></a>filetype-hook ruby|python <span class="ot">%{</span></span>
+<span id="cb23-13"><a href="#cb23-13"></a><span class="st">    set window indentwidth 4</span></span>
+<span id="cb23-14"><a href="#cb23-14"></a><span class="st">    set window tabstop 4</span></span>
+<span id="cb23-15"><a href="#cb23-15"></a><span class="st">    set window matching_pairs ( ) [ ] { }</span></span>
+<span id="cb23-16"><a href="#cb23-16"></a><span class="ot">}</span></span></code></pre></div>
 <h1 id="should-you-use-kakoune"><span class="header-section-number">5</span> Should you use Kakoune?</h1>
 <p>There’s loads more to Kakoune, not least of which are its <a href="https://kakoune.org/plugins.html">plugins</a>. But the potential for it to be configured exactly how you like is huge, and it’s very easy to do so. I haven’t even talked about <code>evaluate-commands</code> and <code>%sh{…}</code> blocks here.</p>
 <p>Kakoune is so smooth in the way it uses existing programs; take the clipboard for example: why should Kakoune bother with implementing a feature specific to and dependent on X, when it can very easily be done in run-time configuration by piping to and from a program such as xsel? This is a taste of the Unix philosophy, and it’s what makes Kakoune so wonderfully extensible.</p>
