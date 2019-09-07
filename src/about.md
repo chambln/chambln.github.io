@@ -6,9 +6,10 @@ title: About
 Contact
 -------
 
-I will be mildly pleased to receive comments of any kind in the general
-direction of my email, `chambln@protonmail.com`. You can also find me on
-[GitHub]. I am [\@chambln] on Twitter, but I'm not active there.
+I will be mildly pleased to receive comments and corrections in the
+general direction of my email, `chambln@protonmail.com`. You can also
+find me on [GitHub]. I am [\@chambln] on Twitter, but I'm not active
+there.
 
 Here is my [PGP public key].
 
