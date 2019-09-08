@@ -26,7 +26,7 @@ obj_posts := $(src_posts:src/posts/%.md=%.html)
 src_pages := $(wildcard src/*.md)
 obj_pages := $(src_pages:src/%.md=%.html)
 
-all: $(obj_pages) main.css
+all: $(obj_pages) main.css rss.xml
 
 index.html: src/index.md archive.html
 	pandoc $< -so $@ \
@@ -73,6 +73,11 @@ tmp/%.html: src/posts/%.md
 %.css: src/%.scss
 	sassc $< -t compressed > $@
 
+rss.xml: $(src_posts)
+	cat src/include/rss-before.xml > $@
+	pandoc-rss https://cosine.blue/ .html $^ >> $@
+	cat src/include/rss-after.xml >> $@
+	
 clean:
-	@rm -fv *.html *.css
+	@rm -fv *.html *.css *.xml
 	@rm -frv tmp/

@@ -1,7 +1,7 @@
 ---
 author: Gregory Chamberlain
 cover-image: 'media/glenda.jpg'
-date: 'Wednesday 26 June, 2019'
+date: 'Wednesday, 26 June 2019'
 lang: 'en-GB'
 subtitle: |
     How to compile and install Byron Rakitzis' reimplementation of the *rc*
