@@ -33,6 +33,9 @@ see all the source code and embarrassing history in [its repository]. I
 then refactored it into a more generic template which can be found
 [here].
 
+The [RSS feed] is generated with the help of [Pandoc RSS], which I also
+made, so there's a nontrivial chance it's not working properly.
+
 Privacy
 -------
 
@@ -50,4 +53,6 @@ personal information.
   [sassc(1)]: https://github.com/sass/sassc
   [its repository]: https://github.com/chambln/chambln.github.io
   [here]: https://github.com/chambln/red
+  [RSS feed]: rss.xml
+  [Pandoc RSS]: https://github.com/chambln/pandoc-rss
   [Clicky]: https://clicky.com
