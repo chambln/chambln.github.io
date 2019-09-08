@@ -58,6 +58,7 @@ tmp/%.html: src/posts/%.md
 		--template=src/template/post \
 		-H src/include/clicky-head.html \
 		-B src/include/header.html \
+		-B src/include/back.html \
 		-A src/include/footer.html \
 		--css=main.css \
 		--number-sections
@@ -68,6 +69,7 @@ tmp/%.html: src/posts/%.md
 		--template=src/template/page \
 		-H src/include/clicky-head.html \
 		-B src/include/header.html \
+		-B src/include/back.html \
 		-A src/include/footer.html \
 		--css=main.css
 %.css: src/%.scss
