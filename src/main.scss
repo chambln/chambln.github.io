@@ -191,6 +191,26 @@ footer {
   margin-top: 2em;
   color: $foreground-fade;
   font-size: smaller;
+  aside {
+    float: right;
+    a {
+      padding-left: 1em;
+      font-family: $monospace;
+      font-weight: bold;
+      text-transform: lowercase;
+    }
+    a:before,
+    a:after {
+      color: $foreground-fade;
+      font-weight: normal;
+    }
+    a:before {
+      content: "(";
+    }
+    a:after {
+      content: ")";
+    }
+  }
 }
 
 img.cover-image {
