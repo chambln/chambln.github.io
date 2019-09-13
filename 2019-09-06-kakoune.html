@@ -467,7 +467,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Now, what if you want to set an option differently depending on the kind of file you’re editing? You can do that using the WinSetOption hook:</p>
 <pre><code>hook &lt;scope&gt; WinSetOption &#39;filetype=&lt;filetype&gt;&#39; &lt;command&gt;</code></pre>
 <p>This hook is triggered whenever the filetype option is set to <code>&lt;filetype&gt;</code>. The command can be any list of commands. So to set a few options that would be something like this:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb22-1"><a href="#cb22-1"></a>hook globbal <span class="dt">WinSetOption</span> <span class="st">&#39;filetype=(css)&#39;</span> %{</span>
+<div class="sourceCode" id="cb22"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb22-1"><a href="#cb22-1"></a>hook global <span class="dt">WinSetOption</span> <span class="st">&#39;filetype=(css)&#39;</span> %{</span>
 <span id="cb22-2"><a href="#cb22-2"></a>    set buffer indentwidth <span class="dv">2</span></span>
 <span id="cb22-3"><a href="#cb22-3"></a>    set buffer tabstop <span class="dv">2</span></span>
 <span id="cb22-4"><a href="#cb22-4"></a>    set buffer scrolloff <span class="dv">5</span>:<span class="dv">0</span></span>
