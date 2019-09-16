@@ -446,14 +446,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>set window formatcmd &#39;par&#39;</code></pre>
 <p>The <code>window</code> argument specifies the <em>scope</em> of this particular assignment. See <code>:doc options set-option</code> and <code>:doc scope</code> for more explanation.</p>
 <p>Also look at <code>autowrap_fmtcmd</code> and <code>autowrap-enable</code> which wrap lines for you while typing, so it doesn’t feel like you’ve reverted to using Notepad.</p>
-<h3 id="reformatting-the-buffer-on-the-fly"><span class="header-section-number">4.3.1</span> Reformatting the buffer on the fly</h3>
-<h4 id="lightweight-markup"><span class="header-section-number">4.3.1.1</span> Lightweight markup</h4>
+<h3 id="lightweight-markup"><span class="header-section-number">4.3.1</span> Lightweight markup</h3>
 <p>If you’re writing in a lightweight markup language, be it Markdown, ReStructuredText, AsciiDoc, or what have you, it’s nice to have a program go through your writing and fix little formatting mistakes here and there, remove trailing spaces and unnecessary line breaks and so forth. Kakoune’s <code>:format</code> command lets you do this really smoothly without leaving the editor. Just set <code>formatcmd</code> to some command that calls your style linter with any appropriate arguments.</p>
 <p>Pandoc can function as a style linter by telling it that the input and output are of the same kind. ReStructuredText for example,</p>
 <pre><code>set buffer formatcmd &#39;pandoc -f rst -t rst --reference-links&#39;</code></pre>
 <p>where passing <code>--reference-links</code> is optional of course, but means you can write an inline link and have it converted automatically to a reference at the bottom of the file, which takes care of the otherwise laborious task of managing references, their names and order by hand.</p>
 <p>This could become slow for particularly large documents, and some style linting programs will be slower than others. In this document, I’m using Pandoc to reformat around 600 lines of text and it takes a fraction of a second.</p>
-<h4 id="scss"><span class="header-section-number">4.3.1.2</span> SCSS</h4>
+<h3 id="scss"><span class="header-section-number">4.3.2</span> SCSS</h3>
 <p>In the screencast below you can see me fixing a poorly written stylesheet using prettier(1) with this <code>formatcmd</code>:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb20-1"><a href="#cb20-1"></a>set-option window formatcmd <span class="st">&#39;prettier --parser=scss&#39;</span></span></code></pre></div>
 <figure>
