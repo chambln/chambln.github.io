@@ -355,7 +355,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>S\.&lt;ret&gt;</code></pre>
 <p>will split each selection at every period. As you can see, the narrowing tools are immensely powerful and the possibilities endless. And if you’re still not satisfied, there’s the <code>$</code> key which filters your selections by piping each one through any program you like and keeping only those for which the program exists successfully—meaning you could always write a little shell script to be the predicate of that filter.</p>
 <h2 id="changes-through-external-programs"><span class="header-section-number">3.3</span> Changes through external programs</h2>
-<p>Don’t get too excited about <code>$</code> before you’ve met <code>|</code>. This key is your program-yielding text-processing glue. The idea is that you make your selection(s) in Kakoune, type something of the form</p>
+<p>Don’t get too excited about <code>$</code> before you’ve met <code>|</code>. This key is your program-wielding text-processing glue. The idea is that you make your selection(s) in Kakoune, type something of the form</p>
 <pre><code>|program args ...&lt;ret&gt;</code></pre>
 <p>and watch the magic happen. For each selection, Kakoune feeds it as standard input to the program, and replaces it with the standard output.</p>
 <h3 id="word-count-and-formatting"><span class="header-section-number">3.3.1</span> Word count and formatting</h3>
