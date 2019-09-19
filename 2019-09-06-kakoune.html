@@ -103,7 +103,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><em>Skip ahead 700 words to <a href="#using-kakoune">Using Kakoune</a> if you just want to get stuck in right away.</em> Come back if you get totally confused.</p>
 <p>As a long time Vim user, Kakoune quickly peaked my interest and before long I was convinced that it was the editor for me, and not just because it’s incredibly obscure. Its grammatical reshuffle and wise design principles put it above the rest for me, and I’m starting to think it’s more than just a comfy nook in which to hide from the large and looming cold hand of Emacs, the curious GNUisance (sorry) that swings periodically over my shoulder whispering “we have Org mode! And Lisp!” Maybe next year, Emacs. I really want to like you.</p>
 <p>But that’s an essay for another day.</p>
-<p>Here I endeavour to introduce the reader to Kakoune and present my thoughts on its merits and misfits in the context of a terminal-based, keyboard-driven workflow. I make frequent comparisons to Vim, and the reader would benefit from some experience with a modal editor such thereas. That said, those uninitiated in modal editors might find that Kakoune’s forgiving mechanics places it among the easier to learn.</p>
+<p>Here I endeavour to introduce the reader to Kakoune and present my thoughts on its merits and misfits in the context of a terminal-based, keyboard-driven workflow. I make frequent comparisons to Vim, and the reader would benefit from some experience with a modal editor such thereas. That said, those uninitiated in modal editors might find that Kakoune’s forgiving mechanics place it among the easier to learn.</p>
 <h1 id="do-we-really-need-another-vim-clone"><span class="header-section-number">2</span> Do we really need another Vim clone?</h1>
 <p>This is neither a fork nor clone.</p>
 <p>In an effort to provide incremental results and interactivity (words whose meaning became clear once I met the <code>s</code> key), the “selection-oriented code editor” takes a bold step away from some of the Vim interactions familiar to many of us, while remaining competitive keystroke-for-keystroke, millisecond-for-precious-millisecond.</p>
@@ -431,16 +431,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul>
 <p>Have a look at <code>:doc mapping</code> for the full story. Note that <code>:map</code> is one of those commands that can take a <code>-docstring</code> argument, which become part of the self-documenting hints that you see throughout the UI.</p>
-<p>Classic line-editing shortcuts like <code>^W</code> and <code>^U</code> that predate even Unix are missing from Kakoune’s insert mode; “those shortcuts do not fit the paradigm that Kakoune implements” says the <code>:doc faq</code>, but for me this is one case where practicality beats purity:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb16-1"><a href="#cb16-1"></a>map global insert &lt;c-w&gt; <span class="st">&#39;&lt;a-;&gt;b&lt;a-;&gt;d&#39;</span> -docstring <span class="st">&#39;Delete word backwards&#39;</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a>map global insert &lt;c-u&gt; <span class="st">&#39;&lt;a-;&gt;h&lt;a-;&gt;&lt;a-h&gt;&lt;a-;&gt;d&#39;</span> -docstring <span class="st">&#39;Delete line backwards&#39;</span></span></code></pre></div>
+<p>Classic line-editing shortcuts like <code>^W</code> and <code>^U</code> that predate even Unix are missing from Kakoune’s insert mode; “those shortcuts do not fit the paradigm that Kakoune implements” says the <code>:doc faq</code>, but for me this is one case where practicality beats purity.</p>
+<p><em>Update: I have since written a <a href="https://github.com/chambln/kakoune-readline">plugin that implements Readline shortcuts reasonably well in Kakoune</a>.</em></p>
 <h2 id="persistent-configuration"><span class="header-section-number">4.2</span> Persistent configuration</h2>
 <p>Let’s say you’ve mapped a few keys and set a few options. How do you make them persistent between kak(1) sessions?</p>
 <p>Create the file <code>$HOME/.config/kak/kakrc</code> and place your mapping and options in there. This is the analogue to one’s <code>$HOME/.vimrc</code>.</p>
 <p>When you start kak(1), before sourcing your <code>kakrc</code> it first sources all <code>*.kak*</code> files within your <code>$HOME/.config/kak/autoload/</code> directory. That means you can put anything—even Git repositories in there (i.e. plugins)—and all non-Kakoune files don’t cause Kakoune any grief.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
 <p>Once your <code>autoload</code> directory exists, however, Kakoune decides not to source the system run-time files under <code>/usr/share/kak/autoload/</code>, so you’ll want to link that system directory symbolically into yours:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1"></a>    <span class="fu">mkdir</span> -p <span class="va">$HOME</span>/.config/kak/autoload/</span>
-<span id="cb17-2"><a href="#cb17-2"></a>    <span class="fu">ln</span> -s /usr/share/kak/autoload/ <span class="va">$HOME</span>/.config/kak/autoload/</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1"></a>    <span class="fu">mkdir</span> -p <span class="va">$HOME</span>/.config/kak/autoload/</span>
+<span id="cb16-2"><a href="#cb16-2"></a>    <span class="fu">ln</span> -s /usr/share/kak/autoload/ <span class="va">$HOME</span>/.config/kak/autoload/</span></code></pre></div>
 <h2 id="formatting-the-entire-buffer"><span class="header-section-number">4.3</span> Formatting the entire buffer</h2>
 <p>The <code>:format</code> command is provided as a shortcut for <code>%|</code> followed by your formatter program, be it fmt(1), par(1) or something else like a style linter. You just need to set the <code>formatcmd</code> option.</p>
 <pre><code>set window formatcmd &#39;par&#39;</code></pre>
@@ -454,7 +453,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This could become slow for particularly large documents, and some style linting programs will be slower than others. In this document, I’m using Pandoc to reformat around 600 lines of text and it takes a fraction of a second.</p>
 <h3 id="scss"><span class="header-section-number">4.3.2</span> SCSS</h3>
 <p>In the screencast below you can see me fixing a poorly written stylesheet using prettier(1) with this <code>formatcmd</code>:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb20-1"><a href="#cb20-1"></a>set-option window formatcmd <span class="st">&#39;prettier --parser=scss&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb19-1"><a href="#cb19-1"></a>set-option window formatcmd <span class="st">&#39;prettier --parser=scss&#39;</span></span></code></pre></div>
 <figure>
 <script id="asciicast-9zGnkfE066JPBUKXQ3OzLnnxb"
           src="https://asciinema.org/a/9zGnkfE066JPBUKXQ3OzLnnxb.js"
@@ -466,28 +465,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Now, what if you want to set an option differently depending on the kind of file you’re editing? You can do that using the WinSetOption hook:</p>
 <pre><code>hook &lt;scope&gt; WinSetOption &#39;filetype=&lt;filetype&gt;&#39; &lt;command&gt;</code></pre>
 <p>This hook is triggered whenever the filetype option is set to <code>&lt;filetype&gt;</code>. The command can be any list of commands. So to set a few options that would be something like this:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb22-1"><a href="#cb22-1"></a>hook global <span class="dt">WinSetOption</span> <span class="st">&#39;filetype=(css)&#39;</span> %{</span>
-<span id="cb22-2"><a href="#cb22-2"></a>    set buffer indentwidth <span class="dv">2</span></span>
-<span id="cb22-3"><a href="#cb22-3"></a>    set buffer tabstop <span class="dv">2</span></span>
-<span id="cb22-4"><a href="#cb22-4"></a>    set buffer scrolloff <span class="dv">5</span>:<span class="dv">0</span></span>
-<span id="cb22-5"><a href="#cb22-5"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb21-1"><a href="#cb21-1"></a>hook global <span class="dt">WinSetOption</span> <span class="st">&#39;filetype=(css)&#39;</span> %{</span>
+<span id="cb21-2"><a href="#cb21-2"></a>    set buffer indentwidth <span class="dv">2</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a>    set buffer tabstop <span class="dv">2</span></span>
+<span id="cb21-4"><a href="#cb21-4"></a>    set buffer scrolloff <span class="dv">5</span>:<span class="dv">0</span></span>
+<span id="cb21-5"><a href="#cb21-5"></a>}</span></code></pre></div>
 <p>This can get repetitive for lots of different filetypes, so we can factor this out using the function <code>filetype-hook</code> as defined below:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw">def</span> filetype-hook -params <span class="dv">2</span> %{</span>
-<span id="cb23-2"><a href="#cb23-2"></a>    hook global <span class="dt">WinSetOption</span> <span class="st">&#39;filetype=(%arg{1})&#39;</span> %arg(<span class="dv">2</span>)</span>
-<span id="cb23-3"><a href="#cb23-3"></a>}</span>
-<span id="cb23-4"><a href="#cb23-4"></a></span>
-<span id="cb23-5"><a href="#cb23-5"></a>filetype-hook css <span class="ot">%{</span></span>
-<span id="cb23-6"><a href="#cb23-6"></a><span class="st">    set window indentwidth 2</span></span>
-<span id="cb23-7"><a href="#cb23-7"></a><span class="st">    set window tabstop 2</span></span>
-<span id="cb23-8"><a href="#cb23-8"></a><span class="st">    set window scrolloff 5:0</span></span>
-<span id="cb23-9"><a href="#cb23-9"></a><span class="st">    set window formatcmd &#39;prettier --parser=scss&#39;</span></span>
-<span id="cb23-10"><a href="#cb23-10"></a><span class="ot">}</span></span>
-<span id="cb23-11"><a href="#cb23-11"></a></span>
-<span id="cb23-12"><a href="#cb23-12"></a>filetype-hook ruby|python <span class="ot">%{</span></span>
-<span id="cb23-13"><a href="#cb23-13"></a><span class="st">    set window indentwidth 4</span></span>
-<span id="cb23-14"><a href="#cb23-14"></a><span class="st">    set window tabstop 4</span></span>
-<span id="cb23-15"><a href="#cb23-15"></a><span class="st">    set window matching_pairs ( ) [ ] { }</span></span>
-<span id="cb23-16"><a href="#cb23-16"></a><span class="ot">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">def</span> filetype-hook -params <span class="dv">2</span> %{</span>
+<span id="cb22-2"><a href="#cb22-2"></a>    hook global <span class="dt">WinSetOption</span> <span class="st">&#39;filetype=(%arg{1})&#39;</span> %arg(<span class="dv">2</span>)</span>
+<span id="cb22-3"><a href="#cb22-3"></a>}</span>
+<span id="cb22-4"><a href="#cb22-4"></a></span>
+<span id="cb22-5"><a href="#cb22-5"></a>filetype-hook css <span class="ot">%{</span></span>
+<span id="cb22-6"><a href="#cb22-6"></a><span class="st">    set window indentwidth 2</span></span>
+<span id="cb22-7"><a href="#cb22-7"></a><span class="st">    set window tabstop 2</span></span>
+<span id="cb22-8"><a href="#cb22-8"></a><span class="st">    set window scrolloff 5:0</span></span>
+<span id="cb22-9"><a href="#cb22-9"></a><span class="st">    set window formatcmd &#39;prettier --parser=scss&#39;</span></span>
+<span id="cb22-10"><a href="#cb22-10"></a><span class="ot">}</span></span>
+<span id="cb22-11"><a href="#cb22-11"></a></span>
+<span id="cb22-12"><a href="#cb22-12"></a>filetype-hook ruby|python <span class="ot">%{</span></span>
+<span id="cb22-13"><a href="#cb22-13"></a><span class="st">    set window indentwidth 4</span></span>
+<span id="cb22-14"><a href="#cb22-14"></a><span class="st">    set window tabstop 4</span></span>
+<span id="cb22-15"><a href="#cb22-15"></a><span class="st">    set window matching_pairs ( ) [ ] { }</span></span>
+<span id="cb22-16"><a href="#cb22-16"></a><span class="ot">}</span></span></code></pre></div>
 <h1 id="should-you-use-kakoune"><span class="header-section-number">5</span> Should you use Kakoune?</h1>
 <p>There’s loads more to Kakoune, not least of which are its <a href="https://kakoune.org/plugins.html">plugins</a>. But the potential for it to be configured exactly how you like is huge, and it’s very easy to do so. I haven’t even talked about <code>evaluate-commands</code> and <code>%sh{…}</code> blocks here.</p>
 <p>Kakoune is so smooth in the way it uses existing programs; take the clipboard for example: why should Kakoune bother with implementing a feature specific to and dependent on X, when it can very easily be done in run-time configuration by piping to and from a program such as xsel? This is a taste of the Unix philosophy, and it’s what makes Kakoune so wonderfully extensible.</p>
@@ -499,7 +498,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>There’s just no way to have the cursor turn into a pipe shape while in insert mode, which is a shame because many people rely on that to indicate whether they’re in insert mode.</li>
 <li>Insert mode auto wrapping, which uses fold(1), will occasionally create a new line in the middle of a word I’m writing.</li>
 <li>Some people have reported slow startup times; for me it’s a small fraction of a second which is tolerable but doesn’t have the same <em>instant</em> feel as Vim.</li>
-<li>I had to implement essential line-editing chords like <code>&lt;c-w&gt;</code> myself in configuration. The needlessly puristic reason given for their absence does not convince me.</li>
+<li><a href="https://github.com/chambln/kakoune-readline">I had to implement essential line-editing chords like <code>&lt;c-w&gt;</code> myself</a>. The needlessly puristic reason given for their absence does not convince me.</li>
 </ul>
 <h1 id="further-reading"><span class="header-section-number">6</span> Further reading</h1>
 <ul>
