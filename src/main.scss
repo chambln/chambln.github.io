@@ -191,6 +191,13 @@ figcaption {
   text-align: center;
 }
 
+kbd {
+  padding: 1px 4px;
+  border: 1px solid gray;
+  border-bottom: 2px solid gray;
+  border-radius: 2px;
+}
+
 footer {
   margin-top: 2em;
   color: $foreground-fade;
