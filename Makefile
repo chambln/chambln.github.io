@@ -79,7 +79,7 @@ rss.xml: $(src_posts)
 	cat src/include/rss-before.xml > $@
 	pandoc-rss https://cosine.blue/ .html $^ >> $@
 	cat src/include/rss-after.xml >> $@
-	
+
 clean:
 	@rm -fv *.html *.css *.xml
 	@rm -frv tmp/
