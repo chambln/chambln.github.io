@@ -475,27 +475,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Now, what if you want to set an option differently depending on the kind of file you’re editing? You can do that using the WinSetOption hook:</p>
 <pre><code>hook &lt;scope&gt; WinSetOption &#39;filetype=&lt;filetype&gt;&#39; &lt;command&gt;</code></pre>
 <p>This hook is triggered whenever the filetype option is set to <code>&lt;filetype&gt;</code>. The command can be any list of commands. So to set a few options that would be something like this:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb13-1"><a href="#cb13-1"></a>hook global <span class="dt">WinSetOption</span> <span class="st">&#39;filetype=(css)&#39;</span> %{</span>
+<div class="sourceCode" id="cb13"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb13-1"><a href="#cb13-1"></a>hook global <span class="dt">WinSetOption</span> filetype=(css|scss) %{</span>
 <span id="cb13-2"><a href="#cb13-2"></a>    set buffer indentwidth <span class="dv">2</span></span>
 <span id="cb13-3"><a href="#cb13-3"></a>    set buffer tabstop <span class="dv">2</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a>    set buffer scrolloff <span class="dv">5</span>:<span class="dv">0</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>    set buffer scrolloff <span class="dv">5</span>,<span class="dv">0</span></span>
 <span id="cb13-5"><a href="#cb13-5"></a>}</span></code></pre></div>
 <p>This can get repetitive for lots of different filetypes, so we can factor this out using the function <code>filetype-hook</code> as defined below:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">def</span> filetype-hook -params <span class="dv">2</span> %{</span>
-<span id="cb14-2"><a href="#cb14-2"></a>    hook global <span class="dt">WinSetOption</span> <span class="st">&#39;filetype=(%arg{1})&#39;</span> %arg(<span class="dv">2</span>)</span>
+<div class="sourceCode" id="cb14"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb14-1"><a href="#cb14-1"></a>define-command filetype-hook -params <span class="dv">2</span> %{</span>
+<span id="cb14-2"><a href="#cb14-2"></a>    hook global <span class="dt">WinSetOption</span> <span class="st">&#39;filetype=(%arg{1})&#39;</span> %arg{<span class="dv">2</span>}</span>
 <span id="cb14-3"><a href="#cb14-3"></a>}</span>
 <span id="cb14-4"><a href="#cb14-4"></a></span>
-<span id="cb14-5"><a href="#cb14-5"></a>filetype-hook css <span class="ot">%{</span></span>
-<span id="cb14-6"><a href="#cb14-6"></a><span class="st">    set window indentwidth 2</span></span>
-<span id="cb14-7"><a href="#cb14-7"></a><span class="st">    set window tabstop 2</span></span>
-<span id="cb14-8"><a href="#cb14-8"></a><span class="st">    set window scrolloff 5:0</span></span>
-<span id="cb14-9"><a href="#cb14-9"></a><span class="st">    set window formatcmd &#39;prettier --parser=scss&#39;</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a>filetype-hook css|scss <span class="ot">%{</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="st">    set-option window indentwidth 2</span></span>
+<span id="cb14-7"><a href="#cb14-7"></a><span class="st">    set-option window tabstop 2</span></span>
+<span id="cb14-8"><a href="#cb14-8"></a><span class="st">    set-option window scrolloff 5,0</span></span>
+<span id="cb14-9"><a href="#cb14-9"></a><span class="st">    set-option window formatcmd &#39;prettier --parser=scss&#39;</span></span>
 <span id="cb14-10"><a href="#cb14-10"></a><span class="ot">}</span></span>
 <span id="cb14-11"><a href="#cb14-11"></a></span>
 <span id="cb14-12"><a href="#cb14-12"></a>filetype-hook ruby|python <span class="ot">%{</span></span>
-<span id="cb14-13"><a href="#cb14-13"></a><span class="st">    set window indentwidth 4</span></span>
-<span id="cb14-14"><a href="#cb14-14"></a><span class="st">    set window tabstop 4</span></span>
-<span id="cb14-15"><a href="#cb14-15"></a><span class="st">    set window matching_pairs ( ) [ ] { }</span></span>
+<span id="cb14-13"><a href="#cb14-13"></a><span class="st">    set-option window indentwidth 4</span></span>
+<span id="cb14-14"><a href="#cb14-14"></a><span class="st">    set-option window tabstop 4</span></span>
+<span id="cb14-15"><a href="#cb14-15"></a><span class="st">    set-option window matching_pairs ( ) [ ] { }</span></span>
 <span id="cb14-16"><a href="#cb14-16"></a><span class="ot">}</span></span></code></pre></div>
 <h1 id="should-you-use-kakoune"><span class="header-section-number">5</span> Should you use Kakoune?</h1>
 <p>There’s loads more to Kakoune, not least of which are its <a href="https://kakoune.org/plugins.html">plugins</a>. But the potential for it to be configured exactly how you like is huge, and it’s very easy to do so. I haven’t even talked about <code>evaluate-commands</code> and <code>%sh{…}</code> blocks here.</p>
