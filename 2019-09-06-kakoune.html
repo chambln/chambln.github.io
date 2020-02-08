@@ -98,13 +98,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header>
 <figure><img class="cover-image" src="media/kak-cover.png" alt="Cover image" /></figure>
 <article>
-<h1 id="what-is-kakoune"><span class="header-section-number">1</span> What is Kakoune?</h1>
+<h1 data-number="1" id="what-is-kakoune"><span class="header-section-number">1</span> What is Kakoune?</h1>
 <p><a href="http://kakoune.org/">Kakoune</a> (/kə'kuːn/) describes itself as “a code editor heavily inspired by Vim”, and like the venerable vi(1) and its successor, its internal model interprets the user’s keystrokes like utterances of a sort-of “text-editing language”, but with a certain linguistic twist (more on that later). Available—for reasons that will later become clear—only on Unix-like systems, it was written in C++ by <a href="https://github.com/mawww">Maxime Coste</a>, has a clean <a href="https://github.com/mawww/kakoune">code base</a> and runs like the wind in a terminal.</p>
 <p><em>Skip ahead 700 words to <a href="#using-kakoune">Using Kakoune</a> if you just want to get stuck in right away.</em> Come back if you get totally confused.</p>
 <p>As a long time Vim user, Kakoune quickly piqued my interest and before long I was convinced that it was the editor for me, and not just because it’s incredibly obscure. Its grammatical reshuffle and wise design principles put it above the rest for me, and I’m starting to think it’s more than just a comfy nook in which to hide from the large and looming cold hand of Emacs, the curious GNUisance (sorry) that swings periodically over my shoulder whispering “we have Org mode! And Lisp!” Maybe next year, Emacs. I really want to like you.</p>
 <p>But that’s an essay for another day.</p>
 <p>Here I endeavour to introduce the reader to Kakoune and present my thoughts on its merits and misfits in the context of a terminal-based, keyboard-driven workflow. I make frequent comparisons to Vim, and the reader would benefit from some experience with a modal editor such thereas. That said, those uninitiated in modal editors might find that Kakoune’s forgiving mechanics place it among the easier to learn.</p>
-<h1 id="do-we-really-need-another-vim-clone"><span class="header-section-number">2</span> Do we really need another Vim clone?</h1>
+<h1 data-number="2" id="do-we-really-need-another-vim-clone"><span class="header-section-number">2</span> Do we really need another Vim clone?</h1>
 <p>This is neither a fork nor clone.</p>
 <p>In an effort to provide incremental results and interactivity (words whose meaning became clear once I met the <kbd>s</kbd> key), the “selection-oriented code editor” takes a bold step away from some of the Vim interactions familiar to many of us, while remaining competitive keystroke-for-keystroke, millisecond-for-precious-millisecond.</p>
 <p>Its author cites the Unix philosophy as one of Kakoune’s virtues, and certainly I would agree that it trumps Vim in adherence thereto (examples of this to come); and that is not to say it lacks enough features. Indeed it has built-in wrappers around git(1), grep(1), make(1), and man(1), works with ctags, conforming linters and other things.</p>
@@ -114,14 +114,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
            async></script>
 </figure>
 <p>Vim is difficult to extend, not least because of its idiosyncratic and unreadable train wreck of a language, VimL. Kakoune, on the other hand, stands by its decision not to complect its language with flow control and whatnot, and instead relies on languages we already know through its <code>%sh{…}</code> blocks. And although Kakoune is very usable out-of-the-box, one look at the <a href="https://kakoune.org/plugins.html">plugins page</a> is enough to make any purist cave.</p>
-<h2 id="so-whats-the-twist"><span class="header-section-number">2.1</span> So what’s the twist?</h2>
+<h2 data-number="2.1" id="so-whats-the-twist"><span class="header-section-number">2.1</span> So what’s the twist?</h2>
 <p>Whereas vi’s keystroke language follows <strong>verb-object</strong> order, Kakoune inverts that by following <strong>object-verb</strong> order. In real terms, that means you make a selection (object) before deciding what to do (verb) with it. The object might be a character, word, WORD<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, sentence, paragraph, parenthetical, regular expression, you name it; the verb might be <strong>delete</strong>, <strong>yank</strong> (copy), <strong>change</strong>, <strong>indent</strong>, or even transformative operations like <strong>lint</strong>, <strong>format</strong>, <strong>uppercase</strong>, etc. In Kakoune, it is with this reversed grammar, this postfix notation, that you interactively sweep up a group or groups of characters before acting on them. That way if your object isn’t quite right, you can immediately correct it without having to undo and redo your verb.</p>
 <p>I like to think Kakoune’s “keystrokes as a text editing language” model, in comparison to that of vi, is what linguists would call an <em><a href="https://en.wikipedia.org/wiki/Anastrophe">anastrophe</a></em>—specifically an object-verb inversion.</p>
 <figure>
 <img src="media/barn-swallow.jpg" alt="" /><figcaption>In English, the subject-object-verb order can be seen in this anastrophic idiom, “one swallow does not a summer make”.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></figcaption>
 </figure>
 <p>To English speakers, it might seem unnatural to communicate by placing the verb last, but consider that about 45% of documented natural languages have subject-object-verb order, including Latin, Ancient Greek, Japanese and Korean.</p>
-<h2 id="isnt-that-just-vims-visual-mode"><span class="header-section-number">2.2</span> Isn’t that just Vim’s visual mode?</h2>
+<h2 data-number="2.2" id="isnt-that-just-vims-visual-mode"><span class="header-section-number">2.2</span> Isn’t that just Vim’s visual mode?</h2>
 <p>Well, yes, but Vim’s visual mode is a malformed afterthought in comparison, and you have to hit <kbd>v</kbd> every time you want to use it. Kakoune is visual mode done right, but not just that; it permits—nay thrives on—multiple selections (thousands if you wish but typically just a few) and provides some really neat tools to narrow them down incrementally, <a href="#narrowing">as we’ll see later</a>.</p>
 <p>This paradigm shift necessitated a revised set of key mappings, which Kakoune implements rather well if you don’t mind using <kbd>Alt</kbd>. Since uppercase motion keys tend to <em>extend</em> the selection, <kbd>Alt</kbd><kbd>w</kbd>, <kbd>Alt</kbd><kbd>e</kbd> and <kbd>Alt</kbd><kbd>b</kbd> are used to traverse WORDs; similarly, since <kbd>a</kbd> and <kbd>i</kbd> have jobs already, <kbd>Alt</kbd><kbd>a</kbd> and <kbd>Alt</kbd><kbd>i</kbd> are used to select ‘an object’ or ‘inner object’.</p>
 <table>
@@ -186,7 +186,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Admittedly, from the table above, my new favourite editor looks to be more complicated than Vim. Perhaps that’s true in some sense, but Kakoune’s strengths lie in its forgiving interactivity and incremental results, which are best experienced first hand.</p>
-<h1 id="using-kakoune"><span class="header-section-number">3</span> Using Kakoune</h1>
+<h1 data-number="3" id="using-kakoune"><span class="header-section-number">3</span> Using Kakoune</h1>
 <p>At this point, I encourage the reader to play around with Kakoune. Have fun with it! Install it with your package manager or build it from <a href="https://github.com/mawww/kakoune">source</a>. Skim over the manual page for kak(1) and open a file in the terminal like so</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="ex">kak</span> example.cc</span></code></pre></div>
 <p>Make sure your terminal emulator supports alt key combinations and isn’t overriding them.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
@@ -199,7 +199,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Use <code>:delete-buffer</code> to delete a buffer. Write to disk with <code>:w</code> and quit with <code>:q</code>. As you enter commands, you’ll see an ASCII art Clippy show up in a box with the relevadocumentation.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> Commands are self-documenting, and many have a <code>-docstring</code> argument in their definition which enriches these info boxes.</p>
 <p>Depending on your terminal colours, things might be unreadable. If so, or otherwise, pick a colour scheme using the <code>:colorscheme &lt;name&gt;</code> command. Try not to spend too many of your precious Earth seconds fussing over which is best, as I did.</p>
 <p>Kakoune shares a good deal of elementary keys with Vim, which eases the learning curve for veterans thereof. Of the lowercase letters, only <kbd>s</kbd>, <kbd>z</kbd>, <kbd>x</kbd>, <kbd>v</kbd> and <kbd>m</kbd> have completely new jobs. Hitting <kbd>a</kbd>, <kbd>i</kbd>, <kbd>A</kbd>, <kbd>I</kbd>, <kbd>o</kbd>, or <kbd>O</kbd> will enter insert mode in much the same way as in vi; <kbd>Q</kbd> and <kbd>q</kbd> handle macros; pressing <kbd>u</kbd> will undo (some will rejoice that it’s <kbd>U</kbd>, not <kbd>Ctrl</kbd><kbd>r</kbd>, to redo); I could go on. As you’d expect, many motion keys accept counts, as in <kbd>4</kbd> <kbd>w</kbd> to traverse four words.</p>
-<h2 id="motions"><span class="header-section-number">3.1</span> Motions</h2>
+<h2 data-number="3.1" id="motions"><span class="header-section-number">3.1</span> Motions</h2>
 <p>Get the hang of using motions (<kbd>h</kbd>, <kbd>j</kbd>, <kbd>k</kbd>, <kbd>l</kbd>, <kbd>w</kbd>, <kbd>e</kbd>, <kbd>b</kbd>, <kbd>f</kbd>, and <kbd>t</kbd> for starters) and their majuscule equivalents, holding shift to extend the selection you already have, hitting <kbd>;</kbd> to reset the selection range back to the cursor itself. Then, of course, <kbd>r</kbd>, <kbd>d</kbd> and <kbd>c</kbd> are your destructive verbs, while <kbd>~</kbd>, <kbd>`</kbd>, <kbd>&lt;</kbd> and <kbd>&gt;</kbd> are transformative; <kbd>i</kbd>, <kbd>a</kbd>, <kbd>o</kbd> and <kbd>O</kbd> respect the selection range (try it to see what I mean), as do <kbd>y</kbd> (yank/copy) and <kbd>p</kbd> (paste). Try combining some of these with <kbd>Alt</kbd> and see what happens. Try <kbd>Alt</kbd><kbd>i</kbd> or <kbd>Alt</kbd><kbd>a</kbd> and read the info box to see what you can do with them; same goes for <kbd>[</kbd> and <kbd>]</kbd>, and their shifted equivalents <kbd>{</kbd> and <kbd>}</kbd> which, predictably, extend the selection.</p>
 <p>Press <kbd>g</kbd> and you’ll see the ‘goto’ menu, which shows you the handful of keys that could complete the key-stroke sequence. Familiarise yourself with some of these.</p>
 <table>
@@ -320,16 +320,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<h2 id="multiple-selections"><span class="header-section-number">3.2</span> Multiple selections</h2>
+<h2 data-number="3.2" id="multiple-selections"><span class="header-section-number">3.2</span> Multiple selections</h2>
 <p>Pressing <kbd>x</kbd> selects a whole line, <kbd>x</kbd> again the next instead; or hold shift and see that <kbd>X</kbd> sweeps up multiple lines. Here’s where things get cool: sweep up a few lines with <kbd>X</kbd> or <kbd>Alt</kbd><kbd>i</kbd> <kbd>p</kbd> and then press <kbd>Alt</kbd><kbd>s</kbd>. That splits the selection <em>linewise</em> into multiple selections. Another way to accrue selections is using <kbd>C</kbd> or <kbd>Alt</kbd><kbd>C</kbd>. Play around with these yourself. If things get out of hand you can hit <kbd>Space</kbd> to reset to one selection.</p>
-<h3 id="aligning-columns-interactively"><span class="header-section-number">3.2.1</span> Aligning columns interactively</h3>
+<h3 data-number="3.2.1" id="aligning-columns-interactively"><span class="header-section-number">3.2.1</span> Aligning columns interactively</h3>
 <p>This is one case where multiple selections are your best friend. You just make your selections and hit <kbd>&amp;</kbd> to align them vertically.</p>
 <figure>
 <script id="asciicast-EiuIMgYNAPSdGYzdP2bsmt0ZF"
            src="https://asciinema.org/a/EiuIMgYNAPSdGYzdP2bsmt0ZF.js"
            async></script>
 </figure>
-<h3 id="narrowing"><span class="header-section-number">3.2.2</span> Narrowing</h3>
+<h3 data-number="3.2.2" id="narrowing"><span class="header-section-number">3.2.2</span> Narrowing</h3>
 <p>Still think multiple selections are a gimmick? So did I. Until I tried some of the narrowing mechanisms. What do I mean by that? Well, let’s say you want to replace all occurrences of ‘sir’ with ‘mate’ inside a particular paragraph. With your cursor situated somewhere within it, you’d press <kbd>Alt</kbd><kbd>i</kbd> <kbd>p</kbd> to select the whole paragraph, then (and this is the good bit)</p>
 <blockquote>
 <p><kbd>s</kbd> <kbd>s</kbd> <kbd>i</kbd> <kbd>r</kbd> <kbd>Enter</kbd></p>
@@ -364,17 +364,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><kbd>S</kbd> <kbd>\</kbd> <kbd>.</kbd> <kbd>Enter</kbd></p>
 </blockquote>
 <p>to split each selection at every period. As you can see, the narrowing tools are immensely powerful and the possibilities endless. And if you’re still not satisfied, there’s the <kbd>$</kbd> key which filters your selections by piping each one through any program you like and keeping only those for which the program exists successfully—meaning you could always write a little shell script to be the predicate of that filter.</p>
-<h2 id="changes-through-external-programs"><span class="header-section-number">3.3</span> Changes through external programs</h2>
+<h2 data-number="3.3" id="changes-through-external-programs"><span class="header-section-number">3.3</span> Changes through external programs</h2>
 <p>Don’t get too excited about <kbd>$</kbd> before you’ve met <kbd>|</kbd>. This key is your program-wielding text-processing glue. The idea is that you make your selection(s) in Kakoune, type something of the form</p>
 <pre><code>|program args ...&lt;ret&gt;</code></pre>
 <p>and watch the magic happen.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> For each selection, Kakoune feeds it as standard input to the program, and replaces it with the standard output.</p>
-<h3 id="word-count-and-formatting"><span class="header-section-number">3.3.1</span> Word count and formatting</h3>
+<h3 data-number="3.3.1" id="word-count-and-formatting"><span class="header-section-number">3.3.1</span> Word count and formatting</h3>
 <p>Starting with a simple example, you could select the entire buffer with <kbd>%</kbd>, then run it through wc(1) to get a word count of your prose:</p>
 <pre><code>%|wc -w&lt;ret&gt;</code></pre>
 <p>Or pipe it first through the appropriate <a href="https://pandoc.org/">pandoc(1)</a> command to convert it to plain text, thereby eliding markup from your word count:</p>
 <pre><code>%|pandoc -t plain|wc -w&lt;ret&gt;</code></pre>
 <p>Or you could select a paragraph and pipe that through to fmt(1) or par(1), which are programs that nicely reflow paragraphs of text from standard input. This is why Kakoune seems to lack important features such as text reflowing; instead it makes it easy to delegate this sort of processing to other programs, thereby adhering a little closer to the Unix philosophy.</p>
-<h3 id="evaluating-code-within-the-buffer"><span class="header-section-number">3.3.2</span> Evaluating code within the buffer</h3>
+<h3 data-number="3.3.2" id="evaluating-code-within-the-buffer"><span class="header-section-number">3.3.2</span> Evaluating code within the buffer</h3>
 <p>If your buffer contained a Python expression, say</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>factorial <span class="op">=</span> <span class="kw">lambda</span> n: <span class="dv">1</span> <span class="cf">if</span> n<span class="op">&lt;</span><span class="dv">1</span> <span class="cf">else</span> n<span class="op">*</span>factorial(n<span class="dv">-1</span>)</span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="bu">print</span>(factorial(<span class="dv">13</span>) <span class="op">+</span> factorial(<span class="dv">16</span>))</span></code></pre></div>
@@ -385,12 +385,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
            async></script>
 </figure>
 <p>The <kbd>!</kbd> key does the same but without piping anything through to the program: it simply copies the output of the program into the buffer. For instance, <code>!ls&lt;ret&gt;</code> will add a list of the contents of the current directory before the selection. <code>!cat example.sh&lt;ret&gt;</code> will add the lines of the file <code>example.sh</code> before the selection.</p>
-<h3 id="inserting-emoji"><span class="header-section-number">3.3.3</span> Inserting Emoji</h3>
+<h3 data-number="3.3.3" id="inserting-emoji"><span class="header-section-number">3.3.3</span> Inserting Emoji</h3>
 <p>Use <kbd>|</kbd> to conveniently pipe words like ‘smile’ 😄 and ‘house’ 🏠 to a program that converts stdin to emoji, like this one liner:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">#!/bin/sh</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="fu">xargs</span> -r printf <span class="st">&#39;:%s:&#39;</span> <span class="kw">|</span> <span class="ex">pandoc</span> -f gfm -t plain</span></code></pre></div>
 <p>Maybe Pandoc is overkill here, but you get the point.</p>
-<h3 id="using-the-system-clipboard"><span class="header-section-number">3.3.4</span> Using the system clipboard</h3>
+<h3 data-number="3.3.4" id="using-the-system-clipboard"><span class="header-section-number">3.3.4</span> Using the system clipboard</h3>
 <p>Piping to and from xsel(1) or xclip(1) is your interface to the X clipboard. Now you can copy those snippets from Stack Overflow and feed your cargo cult programming habit.</p>
 <table>
 <thead>
@@ -418,8 +418,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<h1 id="user-configuration"><span class="header-section-number">4</span> User configuration</h1>
-<h2 id="mapping-keys"><span class="header-section-number">4.1</span> Mapping keys</h2>
+<h1 data-number="4" id="user-configuration"><span class="header-section-number">4</span> User configuration</h1>
+<h2 data-number="4.1" id="mapping-keys"><span class="header-section-number">4.1</span> Mapping keys</h2>
 <p>Of course, you can create key mappings for these things to your heart’s content. Nice thing about Kakoune is it has a proper way of keeping <em>user</em>-specific mappings separate from <em>global</em> mappings, thanks to the scope parameter of <code>:map</code>. By default <kbd>,</kbd> is the prefix to all user mappings.</p>
 <p>As an example, here is a mapping I use all the time:</p>
 <pre><code>map global user m &#39;: format;w;make&lt;ret&gt;ga: echo Making&lt;ret&gt;&#39; -docstring &#39;Format and write the file, then call make(1)&#39;</code></pre>
@@ -443,25 +443,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Have a look at <code>:doc mapping</code> for the full story. Note that <code>:map</code> is one of those commands that can take a <code>-docstring</code> argument, which become part of the self-documenting hints that you see throughout the UI.</p>
 <p>Classic line-editing shortcuts like <kbd>Ctrl</kbd><kbd>w</kbd> and <kbd>Ctrl</kbd><kbd>u</kbd> that predate even Unix are missing from Kakoune’s insert mode; “those shortcuts do not fit the paradigm that Kakoune implements” says the <code>:doc faq</code>, but for me this is one case where practicality beats purity.</p>
 <p><em>Update: I have since written a <a href="https://github.com/chambln/kakoune-readline">plugin that implements Readline shortcuts reasonably well in Kakoune</a>.</em></p>
-<h2 id="persistent-configuration"><span class="header-section-number">4.2</span> Persistent configuration</h2>
+<h2 data-number="4.2" id="persistent-configuration"><span class="header-section-number">4.2</span> Persistent configuration</h2>
 <p>Let’s say you’ve mapped a few keys and set a few options. How do you make them persistent between kak(1) sessions?</p>
 <p>Create the file <code>$HOME/.config/kak/kakrc</code> and place your mapping and options in there. This is the analogue to one’s <code>$HOME/.vimrc</code>.</p>
 <p>When you start kak(1), before sourcing your <code>kakrc</code> it first sources all <code>*.kak</code> files within your <code>$HOME/.config/kak/autoload/</code> directory. That means you can put anything—even Git repositories in there (i.e. plugins)—and all non-Kakoune files don’t cause Kakoune any grief.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
 <p>Once your <code>autoload</code> directory exists, however, Kakoune decides not to source the system run-time files under <code>/usr/share/kak/autoload/</code>, so you’ll want to link that system directory symbolically into yours:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a>    <span class="fu">mkdir</span> -p <span class="va">$HOME</span>/.config/kak/autoload/</span>
 <span id="cb8-2"><a href="#cb8-2"></a>    <span class="fu">ln</span> -s /usr/share/kak/autoload/ <span class="va">$HOME</span>/.config/kak/autoload/</span></code></pre></div>
-<h2 id="formatting-the-entire-buffer"><span class="header-section-number">4.3</span> Formatting the entire buffer</h2>
+<h2 data-number="4.3" id="formatting-the-entire-buffer"><span class="header-section-number">4.3</span> Formatting the entire buffer</h2>
 <p>The <code>:format</code> command is provided as a shortcut for <kbd>%</kbd> <kbd>|</kbd> followed by your formatter program, be it fmt(1), par(1) or something else like a style linter. You just need to set the <code>formatcmd</code> option.</p>
 <pre><code>set window formatcmd &#39;par&#39;</code></pre>
 <p>The <code>window</code> argument specifies the <em>scope</em> of this particular assignment. See <code>:doc options set-option</code> and <code>:doc scope</code> for more explanation.</p>
 <p>Also look at <code>autowrap_fmtcmd</code> and <code>autowrap-enable</code> which wrap lines for you while typing, so it doesn’t feel like you’ve reverted to using Notepad.</p>
-<h3 id="lightweight-markup"><span class="header-section-number">4.3.1</span> Lightweight markup</h3>
+<h3 data-number="4.3.1" id="lightweight-markup"><span class="header-section-number">4.3.1</span> Lightweight markup</h3>
 <p>If you’re writing in a lightweight markup language, be it Markdown, ReStructuredText, AsciiDoc, or what have you, it’s nice to have a program go through your writing and fix little formatting mistakes here and there, remove trailing spaces and unnecessary line breaks and so forth. Kakoune’s <code>:format</code> command lets you do this really smoothly without leaving the editor. Just set <code>formatcmd</code> to some command that calls your style linter with any appropriate arguments.</p>
 <p>Pandoc can function as a style linter by telling it that the input and output are of the same kind. ReStructuredText for example,</p>
 <pre><code>set buffer formatcmd &#39;pandoc -f rst -t rst --reference-links&#39;</code></pre>
 <p>where passing <code>--reference-links</code> is optional of course, but means you can write an inline link and have it converted automatically to a reference at the bottom of the file, which takes care of the otherwise laborious task of managing references, their names and order by hand.</p>
 <p>This could become slow for particularly large documents, and some style linting programs will be slower than others. In this document, I’m using Pandoc to reformat around 600 lines of text and it takes a fraction of a second.</p>
-<h3 id="scss"><span class="header-section-number">4.3.2</span> SCSS</h3>
+<h3 data-number="4.3.2" id="scss"><span class="header-section-number">4.3.2</span> SCSS</h3>
 <p>In the screencast below you can see me fixing a poorly written stylesheet using prettier(1) with this <code>formatcmd</code>:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb11-1"><a href="#cb11-1"></a>set-option window formatcmd <span class="st">&#39;prettier --parser=scss&#39;</span></span></code></pre></div>
 <figure>
@@ -469,9 +469,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           src="https://asciinema.org/a/9zGnkfE066JPBUKXQ3OzLnnxb.js"
           async></script>
 </figure>
-<h2 id="hooks"><span class="header-section-number">4.4</span> Hooks</h2>
+<h2 data-number="4.4" id="hooks"><span class="header-section-number">4.4</span> Hooks</h2>
 <p>You can use hooks to trigger a command when some event happens, such as opening a new file, resizing the window, pressing a key in insert mode, or the user being idle for some length of time. These also have an associated scope. Read <code>:doc hooks</code> to see how they work.</p>
-<h3 id="filetype-specific-run-commands"><span class="header-section-number">4.4.1</span> Filetype-specific run commands</h3>
+<h3 data-number="4.4.1" id="filetype-specific-run-commands"><span class="header-section-number">4.4.1</span> Filetype-specific run commands</h3>
 <p>Now, what if you want to set an option differently depending on the kind of file you’re editing? You can do that using the WinSetOption hook:</p>
 <pre><code>hook &lt;scope&gt; WinSetOption &#39;filetype=&lt;filetype&gt;&#39; &lt;command&gt;</code></pre>
 <p>This hook is triggered whenever the filetype option is set to <code>&lt;filetype&gt;</code>. The command can be any list of commands. So to set a few options that would be something like this:</p>
@@ -497,7 +497,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb14-14"><a href="#cb14-14"></a><span class="st">    set-option window tabstop 4</span></span>
 <span id="cb14-15"><a href="#cb14-15"></a><span class="st">    set-option window matching_pairs ( ) [ ] { }</span></span>
 <span id="cb14-16"><a href="#cb14-16"></a><span class="ot">}</span></span></code></pre></div>
-<h1 id="should-you-use-kakoune"><span class="header-section-number">5</span> Should you use Kakoune?</h1>
+<h1 data-number="5" id="should-you-use-kakoune"><span class="header-section-number">5</span> Should you use Kakoune?</h1>
 <p>There’s loads more to Kakoune, not least of which are its <a href="https://kakoune.org/plugins.html">plugins</a>. But the potential for it to be configured exactly how you like is huge, and it’s very easy to do so. I haven’t even talked about <code>evaluate-commands</code> and <code>%sh{…}</code> blocks here.</p>
 <p>Kakoune is so smooth in the way it uses existing programs; take the clipboard for example: why should Kakoune bother with implementing a feature specific to and dependent on X, when it can very easily be done in run-time configuration by piping to and from a program such as xsel? This is a taste of the Unix philosophy, and it’s what makes Kakoune so wonderfully extensible.</p>
 <p>But due to the difference in key mappings, existing Vim users will become frustrated in the transition, and Vim veterans will be leaving their beloved configuration behind, putting them back to square one. I can see many Vim users dismissing Kakoune as an interesting idea, but not worth the effort to learn. I mean, even <a href="https://github.com/mawww">its creator</a> describes it as an “experiment for a better code editor”.</p>
@@ -510,7 +510,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Some people have reported slow startup times; for me it’s a small fraction of a second which is tolerable but doesn’t have the same <em>instant</em> feel as Vim.</li>
 <li><a href="https://github.com/chambln/kakoune-readline">I had to implement essential line-editing chords like <kbd>Ctrl</kbd><kbd>w</kbd> myself</a>. The needlessly puristic reason given for their absence does not convince me.</li>
 </ul>
-<h1 id="further-reading"><span class="header-section-number">6</span> Further reading</h1>
+<h1 data-number="6" id="further-reading"><span class="header-section-number">6</span> Further reading</h1>
 <ul>
 <li><a href="http://kakoune.org/"><code>kakoune.org</code></a></li>
 <li>the <a href="https://github.com/mawww/kakoune/blob/master/README.asciidoc"><code>README.asciidoc</code></a></li>

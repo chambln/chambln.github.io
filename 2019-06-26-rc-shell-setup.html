@@ -98,16 +98,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header>
 <figure><img class="cover-image" src="media/glenda.jpg" alt="Cover image" /></figure>
 <article>
-<h1 id="introduction"><span class="header-section-number">1</span> Introduction</h1>
+<h1 data-number="1" id="introduction"><span class="header-section-number">1</span> Introduction</h1>
 <p>This article demonstrates how to download, compile and install Byron Rakitzis’ reimplementation of the <em>rc</em> shell, originally from the Plan 9 system. The first section is a brief history of <em>rc</em> and some of its newer forms, but feel free to skip ahead to the actual guide.</p>
-<h1 id="history"><span class="header-section-number">2</span> History</h1>
+<h1 data-number="2" id="history"><span class="header-section-number">2</span> History</h1>
 <p>Around 10 years or so after creating Unix, the Computing Science Research Center at AT&amp;T Bell Labs developed the <a href="https://9p.io/plan9">Plan 9</a> operating system, which further riffed on the Unix philosophy. It was only used internally at Bell Labs until the early '90s when they made it available to universities and businesses. Eventually they released it under an open-source license. Today it’s only really used by hobbyists and people learning about operating systems.</p>
 <p>Anyway, <em>rc</em> (short for <em>“run commands”</em>) was the system’s canonical command-line interpreter, and it’s ace. Its syntax is much simpler than that of the established Bourne shell from which Bash and most other contemporary shells derive; and <em>rc</em>'s handling of strings and special characters makes it less error-prone overall.</p>
 <p>Many tools from Plan 9, including its fantastic <em>rc</em> shell, have been ported to Unix-like systems under the name <em><a href="https://9fans.github.io/plan9port">Plan 9 from User Space</a></em> (a.k.a. plan9port). A subset of these programs packaged as <a href="http://tools.suckless.org/9base/">9base</a> is provided by Suckless. The two are probably available from your distribution’s package repository (but keep reading).</p>
 <p>An independent project by Byron Rakitzis saw a reimplementation of the <em>rc</em> shell for Unix-like systems. His implementation differs very slightly from the <em>true</em> Plan 9 shell (as ported by plan9port), but before compiling it can be linked with line-editing libraries such as GNU readline, which is why I much prefer it for interactive use.</p>
-<h1 id="install-the-rc-shell"><span class="header-section-number">3</span> Install the <em>rc</em> shell</h1>
+<h1 data-number="3" id="install-the-rc-shell"><span class="header-section-number">3</span> Install the <em>rc</em> shell</h1>
 <p>I recommend installing <a href="https://github.com/rakitzis/rc" title="rc shell -- independent re-implementation for Unix of the Plan 9 shell (from circa 1992).">Byron Rakitzis’ reimplementation of <em>rc</em></a>, which provides such nice features as <strong>line editing</strong> and <strong>tab completions</strong>.</p>
-<h2 id="compile-from-source"><span class="header-section-number">3.1</span> Compile from source</h2>
+<h2 data-number="3.1" id="compile-from-source"><span class="header-section-number">3.1</span> Compile from source</h2>
 <p>Clone the GitHub repository and run the bootstrap script:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">git</span> clone https://github.com/rakitzis/rc</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="bu">cd</span> rc</span>
@@ -117,7 +117,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-2"><a href="#cb2-2"></a><span class="fu">make</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="fu">sudo</span> make install</span></code></pre></div>
 <p>You now have <em>rc</em> installed on your machine. To uninstall, use <code>sudo make uninstall</code> in that same directory.</p>
-<h1 id="start-the-rc-shell"><span class="header-section-number">4</span> Start the <em>rc</em> shell</h1>
+<h1 data-number="4" id="start-the-rc-shell"><span class="header-section-number">4</span> Start the <em>rc</em> shell</h1>
 <p>You may need to log out and back in for it to work. Start the shell by typing</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="ex">rc</span></span></code></pre></div>
 <p>or, in order to have <em>rc</em> behave as a <strong>login shell</strong>, pass the <code>-l</code> flag:</p>
@@ -136,7 +136,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </blockquote>
 <p>To quit the shell, press CTRL-D or type</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="bu">exit</span></span></code></pre></div>
-<h1 id="make-rc-your-login-shell"><span class="header-section-number">5</span> Make <em>rc</em> your login shell</h1>
+<h1 data-number="5" id="make-rc-your-login-shell"><span class="header-section-number">5</span> Make <em>rc</em> your login shell</h1>
 <p>When you open your terminal, the first program it runs is your <strong>login shell</strong>. On most Linux machines, users’ login shells are set to Bash by default. Changing your login shell is easy to do.</p>
 <p>Firstly, add <em>rc</em>’s full path to your machine’s list of approved login shells. This must be done as root, as so:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">sudo</span> su -c <span class="st">&#39;which rc &gt;&gt; /etc/shells&#39;</span></span></code></pre></div>
@@ -144,7 +144,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="ex">rc</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="fu">chsh</span> <span class="va">$USER</span> --shell <span class="kw">`{</span> <span class="fu">which</span> rc <span class="kw">}</span></span></code></pre></div>
 <p>That’s it! Next time you log in as the same user, your tty and terminals will start with the <em>rc</em> shell.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> This has had no effect on other users; so if your <em>rc</em> executable breaks or disappears, you can simply log in as root and change your shell back to Bash or what have you.</p>
-<h2 id="make-use-of-run-commands"><span class="header-section-number">5.1</span> Make use of run commands</h2>
+<h2 data-number="5.1" id="make-use-of-run-commands"><span class="header-section-number">5.1</span> Make use of run commands</h2>
 <p>Many users like to use <code>la</code> as an alias to <code>ls -A</code>. To implement this in our <em>rc</em>, let’s define a function in <strong><code>$home/.rcrc</code></strong>.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="ex">fn</span> la { ls -A <span class="va">$*</span> }   </span></code></pre></div>
 <p>In short, <code>fn</code> is the keyword for creating functions, and the braces contain the sequence of commands the function shall execute. Arguments of the function are stored in <code>$1</code>, <code>$2</code>, etc., but <code>$*</code> stores the list of <em>all</em> arguments given, which we humbly and helpfully pass straight through to the <code>ls</code> program.</p>
