@@ -111,7 +111,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <figure>
 <script id="asciicast-0MLTST9LQYdJ6JNQvmSsaBV7U"
            src="https://asciinema.org/a/0MLTST9LQYdJ6JNQvmSsaBV7U.js"
-           async></script>
+           async="async"></script>
 </figure>
 <p>Vim is difficult to extend, not least because of its idiosyncratic and unreadable train wreck of a language, VimL. Kakoune, on the other hand, stands by its decision not to complect its language with flow control and whatnot, and instead relies on languages we already know through its <code>%sh{…}</code> blocks. And although Kakoune is very usable out-of-the-box, one look at the <a href="https://kakoune.org/plugins.html">plugins page</a> is enough to make any purist cave.</p>
 <h2 data-number="2.1" id="so-whats-the-twist"><span class="header-section-number">2.1</span> So what’s the twist?</h2>
@@ -327,7 +327,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <figure>
 <script id="asciicast-EiuIMgYNAPSdGYzdP2bsmt0ZF"
            src="https://asciinema.org/a/EiuIMgYNAPSdGYzdP2bsmt0ZF.js"
-           async></script>
+           async="async"></script>
 </figure>
 <h3 data-number="3.2.2" id="narrowing"><span class="header-section-number">3.2.2</span> Narrowing</h3>
 <p>Still think multiple selections are a gimmick? So did I. Until I tried some of the narrowing mechanisms. What do I mean by that? Well, let’s say you want to replace all occurrences of ‘sir’ with ‘mate’ inside a particular paragraph. With your cursor situated somewhere within it, you’d press <kbd>Alt</kbd><kbd>i</kbd> <kbd>p</kbd> to select the whole paragraph, then (and this is the good bit)</p>
@@ -342,7 +342,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <figure>
 <script id="asciicast-r0mCpLIWpF2LiFg5d0qlWPlTb"
            src="https://asciinema.org/a/r0mCpLIWpF2LiFg5d0qlWPlTb.js"
-           async></script>
+           async="async"></script>
 </figure>
 <p>To achieve the same in Vim you’d need to specify the line range of the paragraph in an ex command (perhaps with the help of visual mode, i.e. <kbd>v</kbd> <kbd>i</kbd> <kbd>p</kbd>), and provide the ‘g’ flag. In Kakoune, everything is achieved with the keyboard-based “text-editing language” and as a result is more interactive in that it provides incremental results so that you can make corrections on the fly.</p>
 <p>You <em>can</em> enter a regular expression (see <code>:doc regex</code>) into the <kbd>s</kbd> command, but often simple key-stroke-based interactions thereafter can achieve the same effect while being easier to come up with and adjust as you go. As a contrived example, imagine trying to replace the word that comes immediately <em>after</em> every occurrence of a pattern.</p>
@@ -382,7 +382,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <figure>
 <script id="asciicast-0BHzz6J9fTVDKhfhKeRsLgG43"
            src="https://asciinema.org/a/0BHzz6J9fTVDKhfhKeRsLgG43.js"
-           async></script>
+           async="async"></script>
 </figure>
 <p>The <kbd>!</kbd> key does the same but without piping anything through to the program: it simply copies the output of the program into the buffer. For instance, <code>!ls&lt;ret&gt;</code> will add a list of the contents of the current directory before the selection. <code>!cat example.sh&lt;ret&gt;</code> will add the lines of the file <code>example.sh</code> before the selection.</p>
 <h3 data-number="3.3.3" id="inserting-emoji"><span class="header-section-number">3.3.3</span> Inserting Emoji</h3>
@@ -467,7 +467,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <figure>
 <script id="asciicast-9zGnkfE066JPBUKXQ3OzLnnxb"
           src="https://asciinema.org/a/9zGnkfE066JPBUKXQ3OzLnnxb.js"
-          async></script>
+          async="async"></script>
 </figure>
 <h2 data-number="4.4" id="hooks"><span class="header-section-number">4.4</span> Hooks</h2>
 <p>You can use hooks to trigger a command when some event happens, such as opening a new file, resizing the window, pressing a key in insert mode, or the user being idle for some length of time. These also have an associated scope. Read <code>:doc hooks</code> to see how they work.</p>
