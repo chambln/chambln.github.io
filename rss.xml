@@ -2,10 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
 <title>cosine.blue</title>
-<description>Posts from https://cosine.blue/ by Greg Chamberlain.</description>
+<link>http://cosine.blue/</link>
+<description>cosine.blue: Blog by Gregory Chamberlain</description>
 <language>en-GB</language>
-<link>http://cosine.blue/rss.xml</link>
 <atom:link href="http://cosine.blue/rss.xml" rel="self" type="application/rss+xml" />
+
 <item>
 <title>The Vim-Inspired Editor with a Linguistic Twist</title>
 <link>https://cosine.blue/2019-09-06-kakoune.html</link>
