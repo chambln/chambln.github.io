@@ -66,6 +66,7 @@ tmp/%.html: src/posts/%.md
 %.html: src/%.md
 	pandoc $< -so $@ \
 		--verbose \
+		--email-obfuscation=references \
 		--template=src/template/page \
 		-H src/include/clicky-head.html \
 		-B src/include/header.html \
