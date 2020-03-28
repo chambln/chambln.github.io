@@ -3,11 +3,15 @@ author: Gregory Chamberlain
 cover-image: 'media/libreoffice-concatenate.png'
 date: 'Saturday, 28 March 2020'
 lang: 'en-GB'
-subtitle: 'A brief anecdote in which I use a spreadsheet application to manipulate lots of spreadsheets without actually opening any spreadsheets.'
-title: 'How I Merged 36 Spreadsheets In 2 Minutes---LibreOffice on the Command-Line'
+subtitle: A brief anecdote in which I use a spreadsheet application to
+  manipulate lots of spreadsheets without actually opening any
+  spreadsheets.
+title: 'How I Merged 36 Spreadsheets In 2 Minutes---LibreOffice on the
+  Command-Line'
 ---
 
-# A troublesome task
+A troublesome task
+==================
 
 In a recent project, I found myself tasked with the laborious feat of
 painstakingly joining together tables, hundreds of thousands of rows
@@ -21,15 +25,16 @@ I soon gathered up my pessimism until it amounted to what you might call
 a stubborn sort of frustration-fueled optimism and looked for a better
 way.
 
-# A simple solution
+A simple solution
+=================
 
-Naturally, I reached for my office suite’s documentation. Although
+Naturally, I reached for my office suite's documentation. Although
 LibreOffice is primarily a graphical application, its little-known
 command-line features can be life saving. A leisurely perusal of its man
-page armed me with the `--convert-to` option, which does what you’re
+page armed me with the `--convert-to` option, which does what you're
 thinking.
 
-``` sh
+``` {.sh}
 libreoffice --convert-to csv ./*.ods    # Works with .xlsx too!
 ```
 
@@ -48,7 +53,7 @@ dreaded data. Using sed(1) I was able to extract only the sixth row and
 concatenate the data of all CSV files onto that, writing it to
 `result.csv`.
 
-``` sh
+``` {.sh}
 (
     sed -n 6p ./*.csv   # Print the table headings line;
     sed -s 1,6d "$i"    # Print each file except lines 1-6;
@@ -57,13 +62,14 @@ concatenate the data of all CSV files onto that, writing it to
 
 With just a few simple commands, I had a single well-formed CSV file
 holding *all* the data, ready to be imported into LibreOffice or indeed
-into R or Python or what have you.[^1] I needn’t have even fumbled for
+into R or Python or what have you.[^1] I needn't have even fumbled for
 the mouse.
 
-# Potential complications
+Potential complications
+=======================
 
 Throughout that process, I was working under the assumption that each
-spreadsheet was written the same way---five rows of information I don’t
+spreadsheet was written the same way---five rows of information I don't
 care about, the same 10 or so table headings on the sixth row followed
 by data and only data as far as the eye can scroll.
 
@@ -76,23 +82,24 @@ In an effort to justify this assumption, I did poke around in some of
 the spreadsheets at regular intervals until I was confident it was all
 in the same format.
 
-# More terminal trickery
+More terminal trickery
+======================
 
 There are other things LibreOffice can do programmatically. For example,
 you could print a huge batch of documents to PDF
 
-> **`--print-to-file`** [**`--printer-name`** *printer_name*]
-> [**`--outdir`** *output_dir*] *file*...
-> 
-> Batch print files to file.  If **`--printer-name`** is not specified
-> the default printer is used.  If **`--outdir`** is not specified then
+> **`--print-to-file`** \[**`--printer-name`** *printer\_name*\]
+> \[**`--outdir`** *output\_dir*\] *file*...
+>
+> Batch print files to file. If **`--printer-name`** is not specified
+> the default printer is used. If **`--outdir`** is not specified then
 > the current working directory is used as the output directory for the
 > converted files.
-> 
+>
 > Examples:
-> 
+>
 >     --print-to-file *.doc
-> 
+>
 > Prints all .doc files to the current working directory using the
 > default printer.
 
@@ -113,10 +120,10 @@ functionality in an office suite. I'd be interested to hear of
 praiseworthy command-line support in other GUI applications!
 
 [^1]: The `-s` switch is a GNU extension that tells sed to operate on
-      each file individually, rather than as one continuous
-      stream. Here’s a purely POSIX equivalent:
+    each file individually, rather than as one continuous stream. Here's
+    a purely POSIX equivalent:
 
-    ``` sh
+    ``` {.sh}
     #!/bin/sh
     (
         sed -n 6p ./*.csv      # Print the table headings line;
