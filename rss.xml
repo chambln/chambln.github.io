@@ -8,6 +8,12 @@
 <atom:link href="http://cosine.blue/rss.xml" rel="self" type="application/rss+xml" />
 
 <item>
+<title>How I Merged 36 Spreadsheets In 2 Minutes—LibreOffice on the Command-Line</title>
+<link>https://cosine.blue/2020-03-28-libreoffice-concatenate.html</link>
+<guid>https://cosine.blue/2020-03-28-libreoffice-concatenate.html</guid>
+<pubDate>Sat, 28 Mar 2020 00:00:00 UTC</pubDate>
+</item>
+<item>
 <title>The Vim-Inspired Editor with a Linguistic Twist</title>
 <link>https://cosine.blue/2019-09-06-kakoune.html</link>
 <guid>https://cosine.blue/2019-09-06-kakoune.html</guid>
