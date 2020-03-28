@@ -55,9 +55,9 @@ concatenate the data of all CSV files onto that, writing it to
 
 ``` {.sh}
 (
-    sed -n 6p ./*.csv   # Print the table headings line;
-    sed -s 1,6d "$i"    # Print each file except lines 1-6;
-) > result.csv          # Write that to result.csv.
+    sed -n 6p ./*.csv     # Print the table headings line;
+    sed -s 1,6d ./*.csv   # Print each file except lines 1-6;
+) > result.csv            # Write that to result.csv.
 ```
 
 With just a few simple commands, I had a single well-formed CSV file
