@@ -32,7 +32,6 @@ index.html: src/index.md archive.html
 	pandoc $< -so $@ \
 		--verbose \
 		--template=src/template/page \
-		-H src/include/clicky-head.html \
 		-B src/include/header.html \
 		-A archive.html \
 		-A src/include/footer.html \
@@ -56,7 +55,6 @@ tmp/%.html: src/posts/%.md
 	pandoc $< -so $@ \
 		--verbose \
 		--template=src/template/post \
-		-H src/include/clicky-head.html \
 		-B src/include/header.html \
 		-B src/include/back.html \
 		-A src/include/footer.html \
@@ -68,7 +66,6 @@ tmp/%.html: src/posts/%.md
 		--verbose \
 		--email-obfuscation=references \
 		--template=src/template/page \
-		-H src/include/clicky-head.html \
 		-B src/include/header.html \
 		-B src/include/back.html \
 		-A src/include/footer.html \

@@ -37,14 +37,6 @@ then refactored it into a more generic template which can be found
 The [RSS feed] is generated with the help of [Pandoc RSS], which I also
 made, so there's a nontrivial chance it's not working properly.
 
-Privacy
--------
-
-This site uses JavaScript from [Clicky] to collect basic visitor
-information for diagnostic purposes, with maximum privacy settings. I do
-not share this information. I do not otherwise collect, store, or share
-personal information.
-
   [my email]: mailto:gregc@posteo.net
   [PGP public key]: pubkey-gc.txt
   [GitHub profile]: https://github.com/chambln
@@ -56,4 +48,3 @@ personal information.
   [here]: https://github.com/chambln/red
   [RSS feed]: rss.xml
   [Pandoc RSS]: https://github.com/chambln/pandoc-rss
-  [Clicky]: https://clicky.com
