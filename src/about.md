@@ -29,10 +29,9 @@ Colophon
 --------
 
 I wrote [a simple makefile] that generates this site using [pandoc(1)]
-and [sassc(1)]. It's hosted on GitHub pages because I'm cheap. You can
-see all the source code and embarrassing history in [its repository]. I
-then refactored it into a more generic template which can be found
-[here].
+and [sassc(1)]. You can see all the source code and embarrassing history
+in [its repository]. I then refactored it into a more generic template
+which can be found [here].
 
 The [RSS feed] is generated with the help of [Pandoc RSS], which I also
 made, so there's a nontrivial chance it's not working properly.
