@@ -36,7 +36,7 @@ which can be found [here].
 The [RSS feed] is generated with the help of [Pandoc RSS], which I also
 made, so there's a nontrivial chance it's not working properly.
 
-  [my email]: mailto:gregc@posteo.net
+  [my email]: mailto:greg@cosine.blue
   [PGP public key]: pubkey-gc.txt
   [GitHub profile]: https://github.com/chambln
   [CC BY-SA 4.0 license]: https://creativecommons.org/licenses/by-sa/4.0/
