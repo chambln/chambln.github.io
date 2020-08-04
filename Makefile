@@ -74,9 +74,10 @@ tmp/%.html: src/posts/%.md
 	sassc $< -t compressed > $@
 
 rss.xml: $(src_posts)
-	cp src/include/rss-before.xml $@
-	pandoc-rss -f 'https://cosine.blue/%s.html' $^ >> $@
-	cat src/include/rss-after.xml >> $@
+	pandoc-rss -T cosine.blue \
+	           -D'Blog by Gregory Chamberlain' \
+	           -L https://cosine.blue \
+	  $^ > $@
 
 clean:
 	@rm -fv *.html *.css *.xml
